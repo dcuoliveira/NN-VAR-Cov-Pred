@@ -26,7 +26,7 @@ lm_combination_2x2 = function(data){
       else{
         fit_lm = lm(as.formula(paste0(y, "~" , x, "-1")), data = data)
         tmp_data = list(Var1=str_replace(y, "V", ""),
-                        Var2=str_replace(y, "V", ""),
+                        Var2=str_replace(x, "V", ""),
                         beta_2x2=fit_lm$coefficients[[1]])
       }
       
