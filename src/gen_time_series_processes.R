@@ -7,14 +7,14 @@ library("here")
 source(here("src", "utils.R"))
 
 OUTPUT_PATH = here("src", "data", "inputs")
-MODELS = c("ar1","ar2")
+MODELS = c("ar1")
 N = 100
-K_INIT = 100
-K = 150
+K_INIT = 150
+K = 200
 J = 1
 SEED = 02021994
 PROB_OF_CONNECTION = 0.1
-NETWORKS = c("random", "scale-free", "hub")
+NETWORKS = c("random")
 
 models_output = list()
 for (model in MODELS){
