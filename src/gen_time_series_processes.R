@@ -60,7 +60,7 @@ for (model in MODELS){
       
       # all covariates
       betadgp_data = merge(betadgp_covdgp_data, beta2x2_data)
-      fwrite(x = betadgp_covdgp_data,
+      fwrite(x = betadgp_data,
              file = here(new_folder, "betadgp_data.csv"),
              row.names = FALSE)
       
