@@ -12,13 +12,14 @@ INPUTS_PATH = os.path.join(os.getcwd(), "data", "inputs")
 OUTPUTS_PATH = os.path.join(os.getcwd(), "data", "outputs")
 DATASET_NAMES = ["betadgp_covdgp_data", "betadgp_beta2x2_data", "betadgp_data"]
 TARGET_NAME = "betas_dgp"
-
+MODEL_TAG = "FFNN"
 
 if __name__ == '__main__':
     results = run_train_test_setup(inputs_path=INPUTS_PATH,
                                    outputs_path=OUTPUTS_PATH,
                                    target_name=TARGET_NAME,
                                    dataset_names=DATASET_NAMES,
+                                   model_tag=MODEL_TAG,
                                    wrapper=NNCombWrapper,
                                    n_jobs=N_JOBS,
                                    n_splits=N_SPLITS,
