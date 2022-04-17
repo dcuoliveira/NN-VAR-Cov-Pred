@@ -84,7 +84,8 @@ for (model in MODELS){
       fwrite(x = betadgp_beta2x2_data_test,
              file = here(new_folder, "betadgp_beta2x2_data_test.csv"),
              row.names = FALSE)
-      betadgp_data_test = merge(betadgp_covdgp_data_test, betadgp_beta2x2_data_test)
+      betadgp_data_test = merge(betadgp_covdgp_data_test,
+                                betadgp_beta2x2_data_test %>% select(Var1, Var2, beta_2x2))
       fwrite(x = betadgp_data_test,
              file = here(new_folder, "betadgp_data_test.csv"),
              row.names = FALSE)
