@@ -76,6 +76,7 @@ def run_train_test_setup(target_name,
                          inputs_path,
                          outputs_path,
                          dataset_names,
+                         model_tag,
                          wrapper,
                          n_jobs,
                          n_splits,
@@ -105,7 +106,7 @@ def run_train_test_setup(target_name,
 
             test_data['prediction'] = test_pred
 
-            if not os.path.isdir(os.path.join(outputs_path, dir_name)):
-                os.mkdir(os.path.join(outputs_path, dir_name))
+            if not os.path.isdir(os.path.join(outputs_path, model_tag, dir_name)):
+                os.mkdir(os.path.join(outputs_path, model_tag, dir_name))
 
-            test_data.reset_index().to_csv(os.path.join(outputs_path, dir_name, d_name + "_result.csv"))
+            test_data.reset_index().to_csv(os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv"))
