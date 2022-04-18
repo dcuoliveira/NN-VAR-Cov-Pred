@@ -106,6 +106,11 @@ def run_train_test_setup(target_name,
 
             test_data['prediction'] = test_pred
 
+            # Check dir 1
+            if not os.path.isdir(os.path.join(outputs_path, model_tag)):
+                os.mkdir(os.path.join(outputs_path, model_tag))
+
+            # Check dir 2
             if not os.path.isdir(os.path.join(outputs_path, model_tag, dir_name)):
                 os.mkdir(os.path.join(outputs_path, model_tag, dir_name))
 
