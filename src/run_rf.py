@@ -1,7 +1,7 @@
 import os
 
-from src.model_trainning_functions import run_train_test_setup
-from src.model_classes.models import RandomForestWrapper
+from src.training.runners import run_model_training
+from src.models.ensembles import RandomForestWrapper
 
 N_JOBS = 2  # number of jobs to run in parallel
 N_SPLITS = 10  # number of splits (k) to be made within the k fold cv
@@ -15,14 +15,14 @@ TARGET_NAME = "betas_dgp"
 MODEL_TAG = "RF"
 
 if __name__ == '__main__':
-    results = run_train_test_setup(inputs_path=INPUTS_PATH,
-                                   outputs_path=OUTPUTS_PATH,
-                                   target_name=TARGET_NAME,
-                                   dataset_names=DATASET_NAMES,
-                                   model_tag=MODEL_TAG,
-                                   wrapper=RandomForestWrapper,
-                                   n_jobs=N_JOBS,
-                                   n_splits=N_SPLITS,
-                                   n_iter=N_ITER,
-                                   seed=SEED,
-                                   verbose=VERBOSE)
+    results = run_model_training(inputs_path=INPUTS_PATH,
+                                 outputs_path=OUTPUTS_PATH,
+                                 target_name=TARGET_NAME,
+                                 dataset_names=DATASET_NAMES,
+                                 model_tag=MODEL_TAG,
+                                 wrapper=RandomForestWrapper,
+                                 n_jobs=N_JOBS,
+                                 n_splits=N_SPLITS,
+                                 n_iter=N_ITER,
+                                 seed=SEED,
+                                 verbose=VERBOSE)
