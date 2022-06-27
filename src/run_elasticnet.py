@@ -1,7 +1,7 @@
 import os
 
 from src.training.runners import run_model_training
-from src.model_classes.models import LGBWrapper
+from src.models.linear import ElasticNetWrapper
 
 N_JOBS = 2  # number of jobs to run in parallel
 N_SPLITS = 10  # number of splits (k) to be made within the k fold cv
@@ -12,14 +12,14 @@ INPUTS_PATH = os.path.join(os.getcwd(), "data", "inputs")
 OUTPUTS_PATH = os.path.join(os.getcwd(), "data", "outputs")
 DATASET_NAMES = ["betadgp_covdgp_data", "betadgp_beta2x2_data", "betadgp_data"]
 TARGET_NAME = "betas_dgp"
-MODEL_TAG = "LGBWrapper"
+MODEL_TAG = "EN"
 
 if __name__ == '__main__':
     results = run_model_training(inputs_path=INPUTS_PATH,
                                  outputs_path=OUTPUTS_PATH,
                                  dataset_names=DATASET_NAMES,
                                  model_tag=MODEL_TAG,
-                                 wrapper=LGBWrapper,
+                                 wrapper=ElasticNetWrapper,
                                  n_jobs=N_JOBS,
                                  n_splits=N_SPLITS,
                                  n_iter=N_ITER,
