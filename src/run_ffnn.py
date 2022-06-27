@@ -1,7 +1,7 @@
 import os
 
 from src.model_trainning_functions import run_train_test_setup
-from src.models import NNCombWrapper
+from src.model_classes.models import NNCombWrapper
 
 N_JOBS = 2  # number of jobs to run in parallel
 N_SPLITS = 10  # number of splits (k) to be made within the k fold cv
@@ -13,6 +13,7 @@ OUTPUTS_PATH = os.path.join(os.getcwd(), "data", "outputs")
 DATASET_NAMES = ["betadgp_covdgp_data", "betadgp_beta2x2_data", "betadgp_data"]
 TARGET_NAME = "betas_dgp"
 MODEL_TAG = "FFNN"
+STANDARDIZE = True
 
 if __name__ == '__main__':
     results = run_train_test_setup(inputs_path=INPUTS_PATH,
@@ -20,6 +21,7 @@ if __name__ == '__main__':
                                    target_name=TARGET_NAME,
                                    dataset_names=DATASET_NAMES,
                                    model_tag=MODEL_TAG,
+                                   standardize=STANDARDIZE,
                                    wrapper=NNCombWrapper,
                                    n_jobs=N_JOBS,
                                    n_splits=N_SPLITS,
