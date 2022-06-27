@@ -3,18 +3,18 @@ import pandas as pd
 
 from src.training.optimization import hyper_params_search
 
-def run_training_test_setup(target_name,
-                            inputs_path,
-                            outputs_path,
-                            dataset_names,
-                            model_tag,
-                            standardize,
-                            wrapper,
-                            n_jobs,
-                            n_splits,
-                            n_iter,
-                            seed,
-                            verbose):
+def run_model_training(target_name,
+                       inputs_path,
+                       outputs_path,
+                       dataset_names,
+                       model_tag,
+                       standardize,
+                       wrapper,
+                       n_jobs,
+                       n_splits,
+                       n_iter,
+                       seed,
+                       verbose):
 
     for dir_name in os.listdir(inputs_path):
         for d_name in dataset_names:
