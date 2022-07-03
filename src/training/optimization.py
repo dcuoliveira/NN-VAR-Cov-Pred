@@ -1,14 +1,14 @@
 from sklearn.metrics import make_scorer, mean_squared_error
 from sklearn.model_selection import RandomizedSearchCV, GridSearchCV, KFold
 
-def hyper_params_search(df,
+def hyper_params_search(X,
+                        y,
                         wrapper,
                         n_iter,
                         n_splits,
                         n_jobs,
                         verbose,
-                        seed,
-                        target_name):
+                        seed):
     """
     Use the dataframe 'df' to search for the best
     params for the model 'wrapper'.
@@ -38,9 +38,6 @@ def hyper_params_search(df,
     """
 
     wrapper = wrapper()
-
-    X = df.drop(target_name, 1).values
-    y = df[target_name].values
 
     cv_splits = KFold(n_splits=n_splits)
     mse_scorer = make_scorer(mean_squared_error)
