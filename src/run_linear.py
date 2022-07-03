@@ -24,7 +24,7 @@ if __name__ == '__main__':
                                  model_tag=MODEL_TAG,
                                  standardize=STANDARDIZE,
                                  train_size=TRAIN_SIZE,
-                                 wrapper=LinearReWrapper,
+                                 wrapper=LinearRegWrapper,
                                  n_jobs=N_JOBS,
                                  n_splits=N_SPLITS,
                                  n_iter=N_ITER,
