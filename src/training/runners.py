@@ -44,6 +44,8 @@ def run_model_training(target_name,
             if wrapper.search_type == "direct_fit":
                 model_search = wrapper.ModelClass.fit(X=X_train_zscore,
                                                       y=y_train)
+                test_pred = model_search.predict(X_test_zscore)
+
             else:
                 model_search = hyper_params_search(X=X_train_zscore,
                                                    y=y_train,
@@ -54,10 +56,12 @@ def run_model_training(target_name,
                                                    n_iter=n_iter,
                                                    seed=seed,
                                                    verbose=verbose)
+                test_pred = model_search.best_estimator_.predict(X_test_zscore)
 
-            test_pred = model_search.best_estimator_.predict(X_test_zscore)
-            test_data = pd.DataFrame({"y": y_test,
-                                      "pred": test_pred})
+            output = pd.DataFrame({"Var1": test_data.reset_index()["Var1"],
+                                   "Var2": test_data.reset_index()["Var2"],
+                                   "y": y_test.ravel(),
+                                   "pred": test_pred.ravel()})
 
             # Check dir 1
             if not os.path.isdir(os.path.join(outputs_path, model_tag)):
@@ -67,5 +71,4 @@ def run_model_training(target_name,
             if not os.path.isdir(os.path.join(outputs_path, model_tag, dir_name)):
                 os.mkdir(os.path.join(outputs_path, model_tag, dir_name))
 
-            test_data.reset_index().to_csv(os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv"),
-                                           index=False)
+            output.to_csv(os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv"), index=False)
