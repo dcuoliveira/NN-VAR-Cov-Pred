@@ -1,7 +1,7 @@
 import os
 
 from src.training.runners import run_model_training
-from src.models.linear import LinearReWrapper
+from src.models.linear import LinearRegWrapper
 
 N_JOBS = None  # number of jobs to run in parallel
 N_SPLITS = None  # number of splits (k) to be made within the k fold cv

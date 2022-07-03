@@ -2,7 +2,7 @@ import numpy as np
 
 from sklearn.linear_model import LinearRegression
 
-class LinearReWrapper():
+class LinearRegWrapper():
     def __init__(self, model_params={'fit_intercept': True}):
         self.model_name = "linear_reg"
         self.search_type = 'direct_fit'
