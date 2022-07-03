@@ -17,14 +17,14 @@ STANDARDIZE = True
 TRAIN_SIZE = 0.7
 
 if __name__ == '__main__':
-    results = run_model_training(inputs_path=INPUTS_PATH,
+    results = run_modeql_training(inputs_path=INPUTS_PATH,
                                  outputs_path=OUTPUTS_PATH,
                                  target_name=TARGET_NAME,
                                  dataset_names=DATASET_NAMES,
                                  model_tag=MODEL_TAG,
                                  standardize=STANDARDIZE,
                                  train_size=TRAIN_SIZE,
-                                 wrapper=LinearRegWrapper,
+                                 wrapper=LinearRegWrapper(),
                                  n_jobs=N_JOBS,
                                  n_splits=N_SPLITS,
                                  n_iter=N_ITER,
