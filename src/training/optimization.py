@@ -3,6 +3,7 @@ from sklearn.model_selection import RandomizedSearchCV, GridSearchCV, KFold
 
 def hyper_params_search(X,
                         y,
+                        validation_data,
                         wrapper,
                         n_iter,
                         n_splits,
@@ -36,8 +37,6 @@ def hyper_params_search(X,
     :return: R2 value
     :rtype: float
     """
-
-    wrapper = wrapper()
 
     cv_splits = KFold(n_splits=n_splits)
     mse_scorer = make_scorer(mean_squared_error)
