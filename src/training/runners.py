@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
@@ -19,17 +20,18 @@ def run_model_training(target_name,
                        seed,
                        verbose):
 
-    for dir_name in os.listdir(inputs_path):
+    for dir_name in tqdm(os.listdir(inputs_path),
+                         desc="Running " + model_tag + " model for all DGPs"):
         for d_name in dataset_names:
             train_data = pd.read_csv(os.path.join(inputs_path, dir_name, d_name + ".csv"))
             train_data.set_index(["Var1", "Var2"], inplace=True)
-            X_train = train_data[[target_name]].to_numpy()
-            y_train = train_data.drop([target_name], axis=1).to_numpy()
+            y_train = train_data[[target_name]].to_numpy()
+            X_train = train_data.drop([target_name], axis=1).to_numpy()
 
             test_data = pd.read_csv(os.path.join(inputs_path, dir_name, d_name + "_test.csv"))
             test_data.set_index(["Var1", "Var2"], inplace=True)
-            X_test = test_data[[target_name]].to_numpy()
-            y_test = test_data.drop([target_name], axis=1).to_numpy()
+            y_test = test_data[[target_name]].to_numpy()
+            X_test = test_data.drop([target_name], axis=1).to_numpy()
 
             if standardize:
                 X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train, train_size=train_size)
@@ -39,7 +41,7 @@ def run_model_training(target_name,
                 X_validation_zscore = scaler.transform(X_validation)
                 X_test_zscore = scaler.transform(X_test)
 
-            wrapper = wrapper()
+            # wrapper = wrapper()
 
             if wrapper.search_type == "direct_fit":
                 model_search = wrapper.ModelClass.fit(X=X_train_zscore,
@@ -62,6 +64,7 @@ def run_model_training(target_name,
                                    "Var2": test_data.reset_index()["Var2"],
                                    "y": y_test.ravel(),
                                    "pred": test_pred.ravel()})
+
 
             # Check dir 1
             if not os.path.isdir(os.path.join(outputs_path, model_tag)):
