@@ -17,7 +17,7 @@ STANDARDIZE = True
 TRAIN_SIZE = 0.7
 
 if __name__ == '__main__':
-    results = run_modeql_training(inputs_path=INPUTS_PATH,
+    results = run_model_training(inputs_path=INPUTS_PATH,
                                  outputs_path=OUTPUTS_PATH,
                                  target_name=TARGET_NAME,
                                  dataset_names=DATASET_NAMES,
