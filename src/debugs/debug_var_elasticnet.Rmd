@@ -1,0 +1,36 @@
+---
+title: "Debug VAR elastic net"
+output: html_notebook
+---
+
+```{r}
+rm(list=ls())
+library("dplyr")
+library("BigVAR")
+```
+
+
+First, let's specify the global parameters of the notebook.
+
+```{r}
+FILE_PATH = getwd()
+DATA_PATH = file.path(dirname(FILE_PATH), "data", "inputs")
+DIR_NAMES = list.dirs(DATA_PATH, recursive = FALSE)
+  
+DATASET_NAMES = c("betadgp_covdgp_data", "betadgp_beta2x2_data", "betadgp_data")
+TARGET_NAME = "betas_dgp"
+```
+
+Next, we choose one of the dir names so as to test the VAR elastic net on the simulated DGP.
+
+```{r}
+dgp_name = DIR_NAMES[1]
+ds = DATASET_NAMES[1] 
+
+data = read.csv()
+```
+
+```{r}
+
+```
+
