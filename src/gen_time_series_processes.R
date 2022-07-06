@@ -2,11 +2,13 @@ rm(list=ls())
 gc()
 library('SparseTSCGM')
 library('dplyr')
-library("here")
+library("data.table")
 
-source(here("src", "utils.R"))
+FILE_PATH = getwd()
 
-OUTPUT_PATH = here("src", "data", "inputs")
+source(file.path(FILE_PATH, "src", "utils", "Rutils.R"))
+
+OUTPUT_PATH = file.path(FILE_PATH, "src", "data", "inputs")
 MODELS = c("ar1")
 N = 100
 K_INIT = 150
@@ -20,7 +22,7 @@ for (model in MODELS){
   for (k in K_INIT:K){
     for (network in NETWORKS){
       output_name = paste0(model, "_", k, "_", network)
-      new_folder = here(OUTPUT_PATH, output_name)
+      new_folder = file.path(OUTPUT_PATH, output_name)
       dir.create(new_folder)
       
       mts = sim.data(model=model,
@@ -33,12 +35,16 @@ for (model in MODELS){
       sigma = mts$sigma %>% as.data.table()
       colnames(sigma) = gsub("V", "", colnames(sigma))
       fwrite(x = sigma,
-             file = here(new_folder, "sigma.csv"),
+             file = file.path(new_folder, "sigma.csv"),
              row.names = FALSE)
       beta = mts$gamma %>% as.data.table()
       colnames(beta) = gsub("V", "", colnames(beta))
       fwrite(x = beta,
-             file = here(new_folder, "beta.csv"),
+             file = file.path(new_folder, "beta.csv"),
+             row.names = FALSE)
+      dgp_data = mts$data1 %>% longitudinal_to_data.table()
+      fwrite(x = beta,
+             file = file.path(new_folder, "data_dgp.csv"),
              row.names = FALSE)
       
       # betas_dgp = f(cov_dgp)
@@ -47,7 +53,7 @@ for (model in MODELS){
       cov_dgp = melt(mts$sigma) %>% as.data.table() %>% rename(cov_dgp=value)
       betadgp_covdgp_data = merge(y_dgp, cov_dgp)
       fwrite(x = betadgp_covdgp_data,
-             file = here(new_folder, "betadgp_covdgp_data.csv"),
+             file = file.path(new_folder, "betadgp_covdgp_data.csv"),
              row.names = FALSE)
       
       # betas_dgp = f(betas_2x2)
@@ -55,13 +61,13 @@ for (model in MODELS){
       beta2x2_data = lm_combination_2x2(data=simulation_dgp)
       betadgp_beta2x2_data = merge(y_dgp, beta2x2_data)
       fwrite(x = betadgp_covdgp_data,
-             file = here(new_folder, "betadgp_beta2x2_data.csv"),
+             file = file.path(new_folder, "betadgp_beta2x2_data.csv"),
              row.names = FALSE)
       
       # all covariates
       betadgp_data = merge(betadgp_covdgp_data, beta2x2_data)
       fwrite(x = betadgp_data,
-             file = here(new_folder, "betadgp_data.csv"),
+             file = file.path(new_folder, "betadgp_data.csv"),
              row.names = FALSE)
       
       # test data
@@ -76,18 +82,22 @@ for (model in MODELS){
       cov_dgp_test = melt(mts_test$sigma) %>% as.data.table() %>% rename(cov_dgp=value)
       betadgp_covdgp_data_test = merge(y_dgp_test, cov_dgp_test)
       fwrite(x = betadgp_covdgp_data_test,
-             file = here(new_folder, "betadgp_covdgp_data_test.csv"),
+             file = file.path(new_folder, "betadgp_covdgp_data_test.csv"),
              row.names = FALSE)
       simulation_dgp_test = mts_test$data1 %>% longitudinal_to_data.table()
       beta2x2_data_test = lm_combination_2x2(data=simulation_dgp_test)
       betadgp_beta2x2_data_test = merge(y_dgp_test, beta2x2_data_test)
       fwrite(x = betadgp_beta2x2_data_test,
-             file = here(new_folder, "betadgp_beta2x2_data_test.csv"),
+             file = file.path(new_folder, "betadgp_beta2x2_data_test.csv"),
              row.names = FALSE)
       betadgp_data_test = merge(betadgp_covdgp_data_test,
                                 betadgp_beta2x2_data_test %>% select(Var1, Var2, beta_2x2))
       fwrite(x = betadgp_data_test,
-             file = here(new_folder, "betadgp_data_test.csv"),
+             file = file.path(new_folder, "betadgp_data_test.csv"),
+             row.names = FALSE)
+      test_dgp_data = mts_test$data1 %>% longitudinal_to_data.table()
+      fwrite(x = test_dgp_data,
+             file = file.path(new_folder, "test_data_dgp.csv"),
              row.names = FALSE)
       
     }
