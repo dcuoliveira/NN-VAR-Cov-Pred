@@ -17,7 +17,7 @@ FILE_PATH = getwd()
 DATA_PATH = file.path(dirname(FILE_PATH), "data", "inputs")
 DIR_NAMES = list.dirs(DATA_PATH, recursive = FALSE)
   
-DATASET_NAMES = c("betadgp_covdgp_data", "betadgp_beta2x2_data", "betadgp_data")
+DATASET_NAMES = c("data_dgp", "test_data_dgp")
 TARGET_NAME = "betas_dgp"
 ```
 
@@ -27,10 +27,11 @@ Next, we choose one of the dir names so as to test the VAR elastic net on the si
 dgp_name = DIR_NAMES[1]
 ds = DATASET_NAMES[1] 
 
-data = read.csv()
+data = read.csv(file.path(dgp_name, paste0(ds, ".csv")))
+head(data)
 ```
 
 ```{r}
-
+B = BigVAR.fit(data, struct = 'BasicEN', p = 1)
 ```
 
