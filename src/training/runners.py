@@ -41,10 +41,13 @@ def run_model_training(target_name,
                 X_validation_zscore = scaler.transform(X_validation)
                 X_test_zscore = scaler.transform(X_test)
 
-            # wrapper = wrapper()
+            if model_tag == "ffnn":
+                ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]]})
+            else:
+                ModelWrapper = wrapper()
 
-            if wrapper.search_type == "direct_fit":
-                model_search = wrapper.ModelClass.fit(X=X_train_zscore,
+            if ModelWrapper.search_type == "direct_fit":
+                model_search = ModelWrapper.ModelClass.fit(X=X_train_zscore,
                                                       y=y_train)
                 test_pred = model_search.predict(X_test_zscore)
 
@@ -52,7 +55,7 @@ def run_model_training(target_name,
                 model_search = hyper_params_search(X=X_train_zscore,
                                                    y=y_train,
                                                    validation_data=(X_validation_zscore, y_validation),
-                                                   wrapper=wrapper,
+                                                   wrapper=ModelWrapper,
                                                    n_jobs=n_jobs,
                                                    n_splits=n_splits,
                                                    n_iter=n_iter,
