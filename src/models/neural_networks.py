@@ -1,34 +1,36 @@
-import random
+from tensorflow import keras
 import numpy as np
+from scipy.stats import reciprocal
 
-from sklearn.neural_network import MLPRegressor
+def FFNN(n_hidden,
+         n_neurons,
+         input_shape,
+         learning_rate=3e-3,
+         activation="relu",
+         loss="mse"):
+    model = keras.models.Sequential()
+    model.add(keras.layers.InputLayer(input_shape=input_shape))
 
-class LayerSizeGenerator:
+    for layer in range(n_hidden):
+        model.add(keras.layers.Dense(n_neurons, activation=activation))
+    model.add(keras.layers.Dense(1))
 
-    def __init__(self):
-        self.num_layers = [1, 2, 3, 4, 5, 5, 7, 8, 9, 10]
-        self.num_neurons = np.arange(1, 50+1, 1)
+    optimizer = keras.optimizers.SGD(lr=learning_rate)
+    model.compile(loss=loss, optimizer=optimizer)
 
-    def rvs(self, random_state=42):
-        random.seed(random_state)
-        # first randomly define num of layers, then pick the neuron size for each of them
-        num_layers = random.choice(self.num_layers)
-        layer_sizes = random.choices(self.num_neurons, k=num_layers)
-        return layer_sizes
+    return model
 
 
-class NNCombWrapper():
+class FFNNWrapper():
     def __init__(self, model_params=None):
-        self.model_name = "nncomb"
+        self.model_name = "ffnn"
         self.search_type = 'random'
-        self.param_grid = {"early_stopping": [True],
-                           "learning_rate": ["invscaling"],
-                           "learning_rate_init": np.linspace(0.001, 0.999, 100),
-                           'alpha': np.linspace(0.001, 0.999, 100),
-                           'solver': ["adam"],
-                           'activation': ["relu"],
-                           "hidden_layer_sizes": LayerSizeGenerator()}
-        if model_params is None:
-            self.ModelClass = MLPRegressor()
-        else:
-            self.ModelClass = MLPRegressor(**model_params)
+        self.param_grid = {"n_hidden": [1, 2, 3, 4, 5],
+                           "n_neurons": np.arange(1, 100),
+                           "learning_rate": reciprocal(3e-4, 3e-2),
+                           "activation": ["relu"],
+                           "loss": ["mse"]}
+        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN)
+
+        if model_params is not None:
+            self.param_grid.update(model_params)
