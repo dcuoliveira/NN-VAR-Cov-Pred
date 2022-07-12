@@ -4,7 +4,7 @@ from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-from src.training.optimization import hyper_params_search
+from training.optimization import hyper_params_search
 
 def run_model_training(target_name,
                        inputs_path,

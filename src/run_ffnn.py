@@ -1,7 +1,7 @@
 import os
 
-from src.training.runners import run_model_training
-from src.models.neural_networks import FFNNWrapper
+from training.runners import run_model_training
+from models.neural_networks import FFNNWrapper
 
 N_JOBS = -1  # number of jobs to run in parallel
 N_SPLITS = 10  # number of splits (k) to be made within the k fold cv
