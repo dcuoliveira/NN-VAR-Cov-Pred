@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 from training import optimization as opt
+from utils import Pyutils as pyutils
 
 def run_model_training(target_name,
                        inputs_path,
@@ -67,7 +68,7 @@ def run_model_training(target_name,
                                    "Var2": test_data.reset_index()["Var2"],
                                    "y": y_test.ravel(),
                                    "pred": test_pred.ravel()})
-
+            model_output = {"model_search": model_search}
 
             # Check dir 1
             if not os.path.isdir(os.path.join(outputs_path, model_tag)):
@@ -78,3 +79,5 @@ def run_model_training(target_name,
                 os.mkdir(os.path.join(outputs_path, model_tag, dir_name))
 
             output.to_csv(os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv"), index=False)
+            pyutils.save_pkl(data=model_output,
+                             path=os.path.join(outputs_path, model_tag, dir_name, d_name + "_model.pickle"))
