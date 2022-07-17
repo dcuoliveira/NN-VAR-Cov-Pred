@@ -4,7 +4,7 @@ from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-from training.optimization import hyper_params_search
+from training import optimization as opt
 
 def run_model_training(target_name,
                        inputs_path,
@@ -52,15 +52,15 @@ def run_model_training(target_name,
                 test_pred = model_search.predict(X_test_zscore)
 
             else:
-                model_search = hyper_params_search(X=X_train_zscore,
-                                                   y=y_train,
-                                                   validation_data=(X_validation_zscore, y_validation),
-                                                   wrapper=ModelWrapper,
-                                                   n_jobs=n_jobs,
-                                                   n_splits=n_splits,
-                                                   n_iter=n_iter,
-                                                   seed=seed,
-                                                   verbose=verbose)
+                model_search = opt.hyper_params_search(X=X_train_zscore,
+                                                       y=y_train,
+                                                       validation_data=(X_validation_zscore, y_validation),
+                                                       wrapper=ModelWrapper,
+                                                       n_jobs=n_jobs,
+                                                       n_splits=n_splits,
+                                                       n_iter=n_iter,
+                                                       seed=seed,
+                                                       verbose=verbose)
                 test_pred = model_search.best_estimator_.predict(X_test_zscore)
 
             output = pd.DataFrame({"Var1": test_data.reset_index()["Var1"],
