@@ -62,6 +62,8 @@ def hyper_params_search(X,
 
     model_search_output = model_search.fit(X=X,
                                            y=y,
+                                           epochs=wrapper.epochs,
+                                           callbacks=wrapper.callbacks,
                                            validation_data=validation_data)
 
     return model_search_output
