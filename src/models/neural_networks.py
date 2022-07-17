@@ -5,9 +5,9 @@ from scipy.stats import reciprocal
 def FFNN(n_hidden,
          n_neurons,
          input_shape,
-         learning_rate=3e-3,
-         activation="relu",
-         loss="mse"):
+         learning_rate,
+         activation,
+         loss):
     model = keras.models.Sequential()
     model.add(keras.layers.InputLayer(input_shape=input_shape))
 
@@ -25,11 +25,14 @@ class FFNNWrapper():
     def __init__(self, model_params=None):
         self.model_name = "ffnn"
         self.search_type = 'random'
-        self.param_grid = {"n_hidden": [1, 2, 3, 4, 5],
-                           "n_neurons": np.arange(1, 100),
+        self.param_grid = {"n_hidden": np.arange(1, 10+1),
+                           "n_neurons": np.arange(1, 100+1),
                            "learning_rate": reciprocal(3e-4, 3e-2),
                            "activation": ["relu"],
                            "loss": ["mse"]}
+        self.epochs = 100
+        self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
+
         self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN)
 
         if model_params is not None:
