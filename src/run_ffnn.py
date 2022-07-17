@@ -5,7 +5,7 @@ from models.neural_networks import FFNNWrapper
 
 N_JOBS = -1  # number of jobs to run in parallel
 N_SPLITS = 10  # number of splits (k) to be made within the k fold cv
-N_ITER = 10  # number of parameter settings that are sampled
+N_ITER = 100  # number of parameter settings that are sampled
 SEED = 2294
 VERBOSE = True
 INPUTS_PATH = os.path.join(os.getcwd(), "data", "inputs")
