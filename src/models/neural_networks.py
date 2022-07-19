@@ -30,7 +30,7 @@ class FFNNWrapper():
                            "learning_rate": reciprocal(3e-4, 3e-2),
                            "activation": ["relu"],
                            "loss": ["mse"]}
-        self.epochs = 100
+        self.epochs = 50
         self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
 
         self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN)
