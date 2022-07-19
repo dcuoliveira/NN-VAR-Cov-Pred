@@ -14,7 +14,7 @@ def load_pkl(path):
         handle.close()
     return data
 
-DEBUG = True
+DEBUG = False
 
 if __name__ == '__main__':
 
