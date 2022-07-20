@@ -79,5 +79,5 @@ def run_model_training(target_name,
                 os.mkdir(os.path.join(outputs_path, model_tag, dir_name))
 
             output.to_csv(os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv"), index=False)
-            pyutils.save_pkl(data=model_output,
+            pyutils.save_pkl(data=model_search.best_params_,
                              path=os.path.join(outputs_path, model_tag, dir_name, d_name + "_model.pickle"))
