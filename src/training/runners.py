@@ -19,11 +19,19 @@ def run_model_training(target_name,
                        n_splits,
                        n_iter,
                        seed,
-                       verbose):
+                       verbose,
+                       output_ovrd):
 
     for dir_name in tqdm(os.listdir(inputs_path),
                          desc="Running " + model_tag + " model for all DGPs"):
         for d_name in dataset_names:
+
+            if output_ovrd:
+                check_pickle = os.path.exists(os.path.join(outputs_path, model_tag, dir_name, d_name + "_model.pickle"))
+                check_pred = os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv")
+                if check_pickle and check_pred:
+                    continue
+
             train_data = pd.read_csv(os.path.join(inputs_path, dir_name, d_name + ".csv"))
             train_data.set_index(["Var1", "Var2"], inplace=True)
             y_train = train_data[[target_name]].to_numpy()
