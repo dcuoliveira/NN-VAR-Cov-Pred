@@ -3,6 +3,8 @@ gc()
 library('SparseTSCGM')
 library('dplyr')
 library("data.table")
+library("foreach")
+library("doParallel")
 
 FILE_PATH = getwd()
 
@@ -18,7 +20,17 @@ SEED = 02021994
 PROB_OF_CONNECTION = 0.1
 NETWORKS = c("random")
 
-for (model in MODELS){
+cores = detectCores()
+cl <- makeCluster(cores[1]-1) #not to overload your computer
+registerDoParallel(cl)
+
+foreach (model=MODELS)  %dopar% {
+  
+  library('SparseTSCGM')
+  library('dplyr')
+  library("data.table")
+  library("stringr")
+  
   for (k in K_INIT:K){
     for (network in NETWORKS){
       output_name = paste0(model, "_", k, "_", network)
@@ -104,3 +116,4 @@ for (model in MODELS){
   }
 }
 
+stopCluster(cl)
