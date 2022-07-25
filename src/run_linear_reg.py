@@ -15,6 +15,7 @@ TARGET_NAME = "betas_dgp"
 MODEL_TAG = "linear_reg"
 STANDARDIZE = True
 TRAIN_SIZE = 0.7
+OUTPUT_OVRD = False
 
 if __name__ == '__main__':
     results = run_model_training(inputs_path=INPUTS_PATH,
@@ -29,4 +30,5 @@ if __name__ == '__main__':
                                  n_splits=N_SPLITS,
                                  n_iter=N_ITER,
                                  seed=SEED,
-                                 verbose=VERBOSE)
+                                 verbose=VERBOSE,
+                                 output_ovrd=OUTPUT_OVRD)
