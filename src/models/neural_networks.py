@@ -2,18 +2,25 @@ from tensorflow import keras
 import numpy as np
 from scipy.stats import reciprocal
 
+from training import loss_functions as lf
+
 def FFNN(n_hidden,
          n_neurons,
          input_shape,
          learning_rate,
          activation,
-         loss):
+         loss_name):
     model = keras.models.Sequential()
     model.add(keras.layers.InputLayer(input_shape=input_shape))
 
     for layer in range(n_hidden):
         model.add(keras.layers.Dense(n_neurons, activation=activation))
     model.add(keras.layers.Dense(1))
+
+    if loss_name == "mse":
+        loss = loss_name
+    elif loss_name == "wmse":
+        loss = lf.weighted_mean_squared_error
 
     optimizer = keras.optimizers.SGD(lr=learning_rate)
     model.compile(loss=loss, optimizer=optimizer)
