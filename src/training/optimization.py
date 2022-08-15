@@ -39,7 +39,11 @@ def hyper_params_search(X,
     """
 
     cv_splits = KFold(n_splits=n_splits)
-    mse_scorer = make_scorer(mean_squared_error)
+
+    if wrapper.model_name == "ffnn":
+        scorer = None
+    else:
+        scorer = make_scorer(mean_squared_error)
 
     if wrapper.search_type == 'random':
         model_search = RandomizedSearchCV(estimator=wrapper.ModelClass,
@@ -48,7 +52,7 @@ def hyper_params_search(X,
                                           cv=cv_splits,
                                           verbose=verbose,
                                           n_jobs=n_jobs,
-                                          scoring=mse_scorer,
+                                          scoring=scorer,
                                           random_state=seed)
     elif wrapper.search_type == 'grid':
         model_search = GridSearchCV(estimator=wrapper.ModelClass,
@@ -56,7 +60,7 @@ def hyper_params_search(X,
                                     cv=cv_splits,
                                     verbose=verbose,
                                     n_jobs=n_jobs,
-                                    scoring=mse_scorer)
+                                    scoring=scorer)
     else:
         raise Exception('search type method not registered')
 
