@@ -36,7 +36,7 @@ class FFNNWrapper():
                            "n_neurons": np.arange(1, 100+1),
                            "learning_rate": reciprocal(3e-4, 3e-2),
                            "activation": ["relu"],
-                           "loss": ["mse"]}
+                           "loss_name": ["mse"]}
         self.epochs = 50
         self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
 
@@ -54,7 +54,7 @@ class FFNNWrapperWMSE():
                            "n_neurons": np.arange(1, 100+1),
                            "learning_rate": reciprocal(3e-4, 3e-2),
                            "activation": ["relu"],
-                           "loss": ["wmse"]}
+                           "loss_name": ["wmse"]}
         self.epochs = 50
         self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
 
