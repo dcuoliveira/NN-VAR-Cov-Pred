@@ -29,6 +29,8 @@ ds <- DATASET_NAMES[1]
 
 data <- read.csv(file.path(dgp_name, paste0(ds, ".csv")))
 Y <- data %>% as.matrix()
+
+dim(data)
 head(data)
 ```
 
@@ -36,7 +38,9 @@ head(data)
 B <- BigVAR.fit(Y = Y,
                 struct = 'BasicEN',
                 p = 1,
-                lambda = 1)[,,1]
+                lambda = 1,
+                intercept = FALSE)[,,1]
+dim(B)
 ```
 
 
@@ -53,13 +57,17 @@ To build the hyperparameter search procedure for the lambda value of the penaliz
 model_search <- constructModel(Y = Y,
                                p = 1,
                                struct = "BasicEN",
-                               gran = c(150,10), 
+                               gran = c(150, 10), 
                                h = 1, 
                                cv = "Rolling",
                                verbose = FALSE,
                                IC = TRUE,
-                               model.controls=list(intercept=TRUE))
+                               model.controls=list(intercept=FALSE))
+results_model_search <- cv.BigVAR(model_search)
+results_model_search@OptimalLambda
 ```
+
+Once we have the optimal lambda, we can apply it to the test data
 
 
 
