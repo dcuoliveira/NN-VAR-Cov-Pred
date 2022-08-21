@@ -71,7 +71,7 @@ def run_model_training(target_name,
 
             else:
                 try:
-                    model_search = opt.hyper_params_search(X=None,
+                    model_search = opt.hyper_params_search(X=X_train_zscore,
                                                            y=y_train,
                                                            validation_data=(X_validation_zscore, y_validation),
                                                            wrapper=ModelWrapper,
