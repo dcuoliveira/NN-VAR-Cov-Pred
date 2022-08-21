@@ -1,6 +1,8 @@
 # R
 .Rproj
 .Rdata
+.Rhistory
+.Rproj.user
 
 # vscode
 .DS_Store
