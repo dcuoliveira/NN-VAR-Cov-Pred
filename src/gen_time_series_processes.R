@@ -109,7 +109,7 @@ foreach (model=MODELS)  %dopar% {
              row.names = FALSE)
       test_dgp_data = mts_test$data1 %>% longitudinal_to_data.table()
       fwrite(x = test_dgp_data,
-             file = file.path(new_folder, "test_data_dgp.csv"),
+             file = file.path(new_folder, "data_dgp_test.csv"),
              row.names = FALSE)
       
     }
