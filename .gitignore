@@ -1,6 +1,12 @@
 # R
 .Rproj
 .Rdata
+.Rhistory
+.Rproj.user
+
+# vscode
+.DS_Store
+src/.DS_Store
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
