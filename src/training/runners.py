@@ -21,7 +21,8 @@ def run_model_training(target_name,
                        n_iter,
                        seed,
                        verbose,
-                       output_ovrd):
+                       output_ovrd,
+                       dir_name_ovrd=None):
 
     # check if output dir for model_tag exists
     if not os.path.isdir(os.path.join(outputs_path, model_tag)):
@@ -31,7 +32,12 @@ def run_model_training(target_name,
     if not os.path.isdir(os.path.join(log_path, model_tag)):
         os.mkdir(os.path.join(log_path, model_tag))
 
-    for dir_name in tqdm(os.listdir(inputs_path),
+    if dir_name_ovrd is not None:
+        list_dir_names = dir_name_ovrd
+    else:
+        list_dir_names = os.listdir(inputs_path)
+
+    for dir_name in tqdm(list_dir_names,
                          desc="Running " + model_tag + " model for all DGPs"):
         for d_name in dataset_names:
 
