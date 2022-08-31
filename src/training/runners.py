@@ -3,6 +3,7 @@ import pandas as pd
 from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
+import traceback
 
 from training import optimization as opt
 from utils import Pyutils as pyutils
@@ -87,7 +88,9 @@ def run_model_training(target_name,
                                                            seed=seed,
                                                            verbose=verbose)
                     test_pred = model_search.best_estimator_.predict(X_test_zscore)
-                except Exception as e:
+                except:
+                    str_traceback = traceback.format_exc()
+
                     # check if dir exists
                     if not os.path.isdir(os.path.join(log_path, model_tag, dir_name)):
                         os.mkdir(os.path.join(log_path, model_tag, dir_name))
@@ -96,7 +99,7 @@ def run_model_training(target_name,
                     log_file = open(os.path.join(log_path, model_tag, dir_name, d_name + ".log"), "w")
 
                     # write error
-                    log_file.write(str(e))
+                    log_file.write(str(str_traceback))
 
                     # close file
                     log_file.close()
