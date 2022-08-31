@@ -7,6 +7,9 @@
 # vscode
 .DS_Store
 src/.DS_Store
+src/data/.DS_Store
+src/data/log/.DS_Store
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
