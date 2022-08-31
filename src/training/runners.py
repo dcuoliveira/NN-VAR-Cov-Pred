@@ -86,6 +86,7 @@ def run_model_training(target_name,
                                                            n_iter=n_iter,
                                                            seed=seed,
                                                            verbose=verbose)
+                    test_pred = model_search.best_estimator_.predict(X_test_zscore)
                 except Exception as e:
                     # check if dir exists
                     if not os.path.isdir(os.path.join(log_path, model_tag, dir_name)):
@@ -101,7 +102,6 @@ def run_model_training(target_name,
                     log_file.close()
 
                     continue
-                test_pred = model_search.best_estimator_.predict(X_test_zscore)
 
             output = pd.DataFrame({"Var1": test_data.reset_index()["Var1"],
                                    "Var2": test_data.reset_index()["Var2"],
