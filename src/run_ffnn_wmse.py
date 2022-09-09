@@ -3,7 +3,7 @@ import os
 from training.runners import run_model_training
 from models.neural_networks import FFNNWrapperWMSE
 
-N_JOBS = -1  # number of jobs to run in parallel
+N_JOBS = -2 # number of jobs to run in parallel
 N_SPLITS = 10  # number of splits (k) to be made within the k fold cv
 N_ITER = 50  # number of parameter settings that are sampled
 SEED = 2294
