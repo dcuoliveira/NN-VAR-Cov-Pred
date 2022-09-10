@@ -1,7 +1,7 @@
 Traceback (most recent call last):
   File "/home/danielco/Downloads/nn-var-cov-pred/src/training/runners.py", line 81, in run_model_training
     model_search = opt.hyper_params_search(X=X_train_zscore,
-  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/optimization.py", line 67, in hyper_params_search
+  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/optimization.py", line 69, in hyper_params_search
     model_search_output = model_search.fit(X=X,
   File "/home/danielco/miniconda3/lib/python3.9/site-packages/sklearn/model_selection/_search.py", line 891, in fit
     self._run_search(evaluate_candidates)
@@ -19,22 +19,6 @@ Traceback (most recent call last):
     return self.__get_result()
   File "/home/danielco/miniconda3/lib/python3.9/concurrent/futures/_base.py", line 391, in __get_result
     raise self._exception
-  File "/home/danielco/miniconda3/lib/python3.9/site-packages/joblib/externals/loky/_base.py", line 625, in _invoke_callbacks
-    callback(self)
-  File "/home/danielco/miniconda3/lib/python3.9/site-packages/joblib/parallel.py", line 359, in __call__
-    self.parallel.dispatch_next()
-  File "/home/danielco/miniconda3/lib/python3.9/site-packages/joblib/parallel.py", line 794, in dispatch_next
-    if not self.dispatch_one_batch(self._original_iterator):
-  File "/home/danielco/miniconda3/lib/python3.9/site-packages/joblib/parallel.py", line 861, in dispatch_one_batch
-    self._dispatch(tasks)
-  File "/home/danielco/miniconda3/lib/python3.9/site-packages/joblib/parallel.py", line 779, in _dispatch
-    job = self._backend.apply_async(batch, callback=cb)
-  File "/home/danielco/miniconda3/lib/python3.9/site-packages/joblib/_parallel_backends.py", line 531, in apply_async
-    future = self._workers.submit(SafeFunction(func))
-  File "/home/danielco/miniconda3/lib/python3.9/site-packages/joblib/externals/loky/reusable_executor.py", line 177, in submit
-    return super(_ReusablePoolExecutor, self).submit(
-  File "/home/danielco/miniconda3/lib/python3.9/site-packages/joblib/externals/loky/process_executor.py", line 1115, in submit
-    raise self._flags.broken
 joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
 
 The exit codes of the workers are {SIGKILL(-9)}
