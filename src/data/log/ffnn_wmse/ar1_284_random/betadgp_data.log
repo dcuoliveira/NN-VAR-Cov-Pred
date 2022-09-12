@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/Users/danieloliveira/Documents/Daniel/codes/nn-var-cov-pred/src/training/runners.py", line 89, in run_model_training
+    verbose=verbose)
+  File "/Users/danieloliveira/Documents/Daniel/codes/nn-var-cov-pred/src/training/optimization.py", line 73, in hyper_params_search
+    validation_data=validation_data)
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/sklearn/model_selection/_search.py", line 687, in fit
+    self._run_search(evaluate_candidates)
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/sklearn/model_selection/_search.py", line 1468, in _run_search
+    random_state=self.random_state))
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/sklearn/model_selection/_search.py", line 657, in evaluate_candidates
+    n_splits, n_candidates, n_candidates * n_splits))
+BrokenPipeError: [Errno 32] Broken pipe

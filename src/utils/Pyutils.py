@@ -1,8 +1,11 @@
 import pickle
 import pandas as pd
 from sklearn.metrics import mean_squared_error, mean_absolute_error
+import numpy as np
 
 from training import loss_functions as lf
+
+np.seterr(all="ignore")
 
 def save_pkl(data,
              path):
@@ -32,6 +35,32 @@ def wmse_melt(v):
     wmse = lf.weighted_mean_squared_error(y_true=v["y"],
                                           y_pred=v["pred"])
     return pd.Series(dict(wmse=wmse.numpy()))
+
+def true_false_positive(threshold_vector, y_true):
+    true_positive = np.equal(threshold_vector, 1) & np.equal(y_true, 1)
+    true_negative = np.equal(threshold_vector, 0) & np.equal(y_true, 0)
+    false_positive = np.equal(threshold_vector, 1) & np.equal(y_true, 0)
+    false_negative = np.equal(threshold_vector, 0) & np.equal(y_true, 1)
+
+    tpr = true_positive.sum() / (true_positive.sum() + false_negative.sum())
+    fpr = false_positive.sum() / (false_positive.sum() + true_negative.sum())
+
+    return tpr, fpr
+
+def roc_from_scratch(y_pred,
+                     y_true,
+                     partitions=100):
+    
+    y_pred = y_pred.abs()
+    
+    roc = np.array([])
+    for i in np.linspace(start=0, stop=y_pred.abs().max(), num=partitions):
+        
+        threshold_vector = np.greater_equal(y_pred, i).astype(int)
+        tpr, fpr = true_false_positive(threshold_vector, y_true)
+        roc = np.append(roc, [fpr, tpr])
+        
+    return roc.reshape(-1, 2)
 
 DEBUG = False
 
