@@ -56,7 +56,7 @@ def roc_from_scratch(y_pred,
     roc = np.array([])
     for i in np.linspace(start=0, stop=y_pred.abs().max(), num=partitions):
         
-        threshold_vector = np.greater_equal(y_pred, i).astype(int)
+        threshold_vector = np.less_equal(y_pred, i).astype(int)
         tpr, fpr = true_false_positive(threshold_vector, y_true)
         roc = np.append(roc, [fpr, tpr])
         
