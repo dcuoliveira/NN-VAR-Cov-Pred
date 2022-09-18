@@ -10,6 +10,7 @@ SEED = 2294
 VERBOSE = True
 INPUTS_PATH = os.path.join(os.getcwd(), "data", "inputs")
 OUTPUTS_PATH = os.path.join(os.getcwd(), "data", "outputs")
+LOG_PATH = os.path.join(os.getcwd(), "data", "log")
 DATASET_NAMES = ["betadgp_covdgp_data", "betadgp_beta2x2_data", "betadgp_data"]
 TARGET_NAME = "betas_dgp"
 MODEL_TAG = "ffnn"
@@ -20,6 +21,7 @@ OUTPUT_OVRD = True
 if __name__ == '__main__':
     results = run_model_training(inputs_path=INPUTS_PATH,
                                  outputs_path=OUTPUTS_PATH,
+                                 log_path=LOG_PATH,
                                  target_name=TARGET_NAME,
                                  dataset_names=DATASET_NAMES,
                                  model_tag=MODEL_TAG,
