@@ -67,7 +67,7 @@ def hyper_params_search(X,
         raise Exception('search type method not registered')
 
     model_search_output = model_search.fit(X=X,
-                                           y=y,
+                                           y=y.flatten(),
                                            epochs=wrapper.epochs,
                                            callbacks=wrapper.callbacks,
                                            validation_data=validation_data)
