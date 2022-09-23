@@ -1,57 +1,10 @@
-joblib.externals.loky.process_executor._RemoteTraceback: 
-"""
 Traceback (most recent call last):
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/process_executor.py", line 436, in _process_worker
-    r = call_item()
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/process_executor.py", line 288, in __call__
-    return self.fn(*self.args, **self.kwargs)
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/_parallel_backends.py", line 595, in __call__
-    return self.func(*args, **kwargs)
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 263, in __call__
-    for func, args, kwargs in self.items]
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 263, in <listcomp>
-    for func, args, kwargs in self.items]
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_validation.py", line 554, in _fit_and_score
-    test_scores = _score(estimator, X_test, y_test, scorer, is_multimetric)
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_validation.py", line 597, in _score
-    return _multimetric_score(estimator, X_test, y_test, scorer)
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_validation.py", line 627, in _multimetric_score
-    score = scorer(estimator, X_test, y_test)
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/metrics/scorer.py", line 97, in __call__
-    **self._kwargs)
-  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/loss_functions.py", line 11, in weighted_mean_squared_error
-    return tf.reduce_mean(tf.square(y_true - y_pred_of_nonzeros)) + tf.reduce_mean(tf.square(y_true - y_pred)) * w
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/ops/math_ops.py", line 899, in binary_op_wrapper
-    return func(x, y, name=name)
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/ops/math_ops.py", line 1197, in _add_dispatch
-    return gen_math_ops.add_v2(x, y, name=name)
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/ops/gen_math_ops.py", line 546, in add_v2
-    _six.raise_from(_core._status_to_exception(e.code, message), None)
-  File "<string>", line 3, in raise_from
-tensorflow.python.framework.errors_impl.InvalidArgumentError: cannot compute AddV2 as input #1(zero-based) was expected to be a float tensor but is a double tensor [Op:AddV2] name: add/
-"""
-
-The above exception was the direct cause of the following exception:
-
-Traceback (most recent call last):
-  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/runners.py", line 89, in run_model_training
-    verbose=verbose)
-  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/optimization.py", line 73, in hyper_params_search
-    validation_data=validation_data)
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 687, in fit
-    self._run_search(evaluate_candidates)
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 1468, in _run_search
-    random_state=self.random_state))
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 666, in evaluate_candidates
-    cv.split(X, y, groups)))
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 1056, in __call__
-    self.retrieve()
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 935, in retrieve
-    self._output.extend(job.get(timeout=self.timeout))
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/_parallel_backends.py", line 542, in wrap_future_result
-    return future.result(timeout=timeout)
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/concurrent/futures/_base.py", line 432, in result
-    return self.__get_result()
-  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/concurrent/futures/_base.py", line 384, in __get_result
-    raise self._exception
-tensorflow.python.framework.errors_impl.InvalidArgumentError: cannot compute AddV2 as input #1(zero-based) was expected to be a float tensor but is a double tensor [Op:AddV2] name: add/
+  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/runners.py", line 81, in run_model_training
+    model_search = opt.hyper_params_search(X=X_train_zscore,
+  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/optimization.py", line 69, in hyper_params_search
+    model_search_output = model_search.fit(X=X,
+  File "/home/danielco/miniconda3/lib/python3.9/site-packages/sklearn/model_selection/_search.py", line 921, in fit
+    self.best_estimator_ = clone(
+  File "/home/danielco/miniconda3/lib/python3.9/site-packages/sklearn/base.py", line 95, in clone
+    raise RuntimeError(
+RuntimeError: Cannot clone object <tensorflow.python.keras.wrappers.scikit_learn.KerasRegressor object at 0x7f67cc8a48b0>, as the constructor either does not set or modifies parameter learning_rate
