@@ -45,7 +45,7 @@ def hyper_params_search(X,
     if wrapper.param_grid['loss_name'][0] == "mse":
         scorer = make_scorer(mean_squared_error)
     else:
-        scorer = make_scorer(lf.weighted_mean_squared_error)
+        scorer = None
 
     if wrapper.search_type == 'random':
         model_search = RandomizedSearchCV(estimator=wrapper.ModelClass,
