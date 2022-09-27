@@ -1,0 +1,38 @@
+Traceback (most recent call last):
+  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/runners.py", line 89, in run_model_training
+    verbose=verbose)
+  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/optimization.py", line 73, in hyper_params_search
+    validation_data=validation_data)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 687, in fit
+    self._run_search(evaluate_candidates)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 1468, in _run_search
+    random_state=self.random_state))
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 666, in evaluate_candidates
+    cv.split(X, y, groups)))
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 1043, in __call__
+    if self.dispatch_one_batch(iterator):
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 861, in dispatch_one_batch
+    self._dispatch(tasks)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 779, in _dispatch
+    job = self._backend.apply_async(batch, callback=cb)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/_parallel_backends.py", line 531, in apply_async
+    future = self._workers.submit(SafeFunction(func))
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/reusable_executor.py", line 178, in submit
+    fn, *args, **kwargs)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/process_executor.py", line 1135, in submit
+    self._ensure_executor_running()
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/process_executor.py", line 1109, in _ensure_executor_running
+    self._adjust_process_count()
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/process_executor.py", line 1100, in _adjust_process_count
+    p.start()
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/multiprocessing/process.py", line 112, in start
+    self._popen = self._Popen(self)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/backend/process.py", line 39, in _Popen
+    return Popen(process_obj)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/backend/popen_loky_posix.py", line 52, in __init__
+    self._launch(process_obj)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/backend/popen_loky_posix.py", line 157, in _launch
+    pid = fork_exec(cmd_python, self._fds, env=process_obj.env)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/backend/fork_exec.py", line 43, in fork_exec
+    pid = os.fork()
+KeyboardInterrupt
