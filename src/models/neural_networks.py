@@ -69,7 +69,7 @@ class DNN1Wrapper():
         self.model_name = "ffnn"
         self.search_type = 'random'
         self.param_grid = {"n_hidden": np.arange(1, 1000+1),
-                           "n_neurons": np.arange(1, 10000+1),
+                           "n_neurons": np.arange(1, 1000+1),
                            "learning_rate": reciprocal(3e-4, 3e-2),
                            "activation": ["relu"],
                            "loss_name": ["mse"]}
