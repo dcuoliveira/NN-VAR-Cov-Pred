@@ -1,7 +1,7 @@
 import os
 
 from training.runners import run_model_training
-from models.neural_networks import DNNWrapper
+from models.neural_networks import DNN1Wrapper
 
 N_JOBS = -1  # number of jobs to run in parallel
 N_SPLITS = 10  # number of splits (k) to be made within the k fold cv
@@ -13,7 +13,7 @@ OUTPUTS_PATH = os.path.join(os.getcwd(), "data", "outputs")
 LOG_PATH = os.path.join(os.getcwd(), "data", "log")
 DATASET_NAMES = ["betadgp_covdgp_data", "betadgp_beta2x2_data", "betadgp_data"]
 TARGET_NAME = "betas_dgp"
-MODEL_TAG = "dnn"
+MODEL_TAG = "dnn1"
 STANDARDIZE = True
 TRAIN_SIZE = 0.7
 OUTPUT_OVRD = True

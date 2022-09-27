@@ -64,7 +64,7 @@ class FFNNWrapperWMSE():
             self.param_grid.update(model_params)
 
 
-class DNNWrapper():
+class DNN1Wrapper():
     def __init__(self, model_params=None):
         self.model_name = "ffnn"
         self.search_type = 'random'
