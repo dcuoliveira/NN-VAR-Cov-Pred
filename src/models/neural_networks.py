@@ -72,7 +72,7 @@ class DNN1Wrapper():
                            "n_neurons": np.arange(1, 10000+1),
                            "learning_rate": reciprocal(3e-4, 3e-2),
                            "activation": ["relu"],
-                           "loss_name": ["wmse"]}
+                           "loss_name": ["mse"]}
         self.epochs = 50
         self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
 
