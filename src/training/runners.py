@@ -17,6 +17,7 @@ def run_model_training(target_name,
                        standardize,
                        train_size,
                        wrapper,
+                       wrapper_ovrd,
                        n_jobs,
                        n_splits,
                        n_iter,
@@ -67,7 +68,12 @@ def run_model_training(target_name,
                 X_test_zscore = scaler.transform(X_test)
 
             if ("ffnn" in model_tag) or ("dnn" in model_tag):
-                ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]]})
+                if wrapper_ovrd is not None:
+                    ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]],
+                                                         "n_hidden": [wrapper_ovrd["n_hidden"]],
+                                                         "n_neurons": [wrapper_ovrd["n_neurons"]]})
+                else:
+                    ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]]})
             else:
                 ModelWrapper = wrapper()
 
