@@ -66,7 +66,7 @@ def run_model_training(target_name,
                 X_validation_zscore = scaler.transform(X_validation)
                 X_test_zscore = scaler.transform(X_test)
 
-            if "ffnn" in model_tag:
+            if ("ffnn" in model_tag) or ("dnn" in model_tag):
                 ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]]})
             else:
                 ModelWrapper = wrapper()
