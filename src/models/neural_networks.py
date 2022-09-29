@@ -34,7 +34,7 @@ class FFNNWrapper():
         self.search_type = 'random'
         self.param_grid = {"n_hidden": np.arange(1, 10+1),
                            "n_neurons": np.arange(1, 100+1),
-                           "learning_rate": reciprocal(3e-4, 3e-2),
+                           "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
                            "activation": ["relu"],
                            "loss_name": ["mse"]}
         self.epochs = 50
@@ -52,7 +52,7 @@ class FFNNWrapperWMSE():
         self.search_type = 'random'
         self.param_grid = {"n_hidden": np.arange(1, 10+1),
                            "n_neurons": np.arange(1, 100+1),
-                           "learning_rate": reciprocal(3e-4, 3e-2),
+                           "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
                            "activation": ["relu"],
                            "loss_name": ["wmse"]}
         self.epochs = 50
@@ -70,7 +70,7 @@ class DNN1Wrapper():
         self.search_type = 'random'
         self.param_grid = {"n_hidden": np.arange(1, 1000+1),
                            "n_neurons": np.arange(1, 1000+1),
-                           "learning_rate": reciprocal(3e-4, 3e-2),
+                           "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
                            "activation": ["relu"],
                            "loss_name": ["mse"]}
         self.epochs = 50
@@ -88,7 +88,7 @@ class FFNNFixedWrapper():
         self.search_type = 'random'
         self.param_grid = {"n_hidden": None,
                            "n_neurons": None,
-                           "learning_rate": reciprocal(3e-4, 3e-2),
+                           "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
                            "activation": ["relu"],
                            "loss_name": ["mse"]}
         self.epochs = 50
