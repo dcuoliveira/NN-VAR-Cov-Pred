@@ -25,7 +25,7 @@ def FFNN(n_hidden,
         loss = lf.weighted_mean_squared_error
 
     optimizer = SGD(lr=learning_rate)
-    model.compile(loss=loss, optimizer=optimizer)
+    model.compile(loss=loss, optimizer=optimizer, metrics=[loss])
 
     return model
 
