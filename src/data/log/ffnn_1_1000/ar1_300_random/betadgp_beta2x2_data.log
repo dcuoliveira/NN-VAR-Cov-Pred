@@ -1,10 +1,56 @@
+joblib.externals.loky.process_executor._RemoteTraceback: 
+"""
 Traceback (most recent call last):
-  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/runners.py", line 87, in run_model_training
-    model_search = opt.hyper_params_search(X=X_train_zscore,
-  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/optimization.py", line 69, in hyper_params_search
-    model_search_output = model_search.fit(X=X,
-  File "/home/danielco/miniconda3/lib/python3.9/site-packages/sklearn/model_selection/_search.py", line 921, in fit
-    self.best_estimator_ = clone(
-  File "/home/danielco/miniconda3/lib/python3.9/site-packages/sklearn/base.py", line 95, in clone
-    raise RuntimeError(
-RuntimeError: Cannot clone object <tensorflow.python.keras.wrappers.scikit_learn.KerasRegressor object at 0x7f8838247430>, as the constructor either does not set or modifies parameter learning_rate
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/process_executor.py", line 436, in _process_worker
+    r = call_item()
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/process_executor.py", line 288, in __call__
+    return self.fn(*self.args, **self.kwargs)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/_parallel_backends.py", line 595, in __call__
+    return self.func(*args, **kwargs)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 263, in __call__
+    for func, args, kwargs in self.items]
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 263, in <listcomp>
+    for func, args, kwargs in self.items]
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_validation.py", line 554, in _fit_and_score
+    test_scores = _score(estimator, X_test, y_test, scorer, is_multimetric)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_validation.py", line 597, in _score
+    return _multimetric_score(estimator, X_test, y_test, scorer)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_validation.py", line 627, in _multimetric_score
+    score = scorer(estimator, X_test, y_test)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/metrics/scorer.py", line 97, in __call__
+    **self._kwargs)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/metrics/regression.py", line 241, in mean_squared_error
+    y_true, y_pred, multioutput)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/metrics/regression.py", line 79, in _check_reg_targets
+    y_pred = check_array(y_pred, ensure_2d=False)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/utils/validation.py", line 542, in check_array
+    allow_nan=force_all_finite == 'allow-nan')
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/utils/validation.py", line 56, in _assert_all_finite
+    raise ValueError(msg_err.format(type_err, X.dtype))
+ValueError: Input contains NaN, infinity or a value too large for dtype('float32').
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/runners.py", line 95, in run_model_training
+    verbose=verbose)
+  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/optimization.py", line 73, in hyper_params_search
+    validation_data=validation_data)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 687, in fit
+    self._run_search(evaluate_candidates)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 1468, in _run_search
+    random_state=self.random_state))
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 666, in evaluate_candidates
+    cv.split(X, y, groups)))
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 1056, in __call__
+    self.retrieve()
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 935, in retrieve
+    self._output.extend(job.get(timeout=self.timeout))
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/_parallel_backends.py", line 542, in wrap_future_result
+    return future.result(timeout=timeout)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/concurrent/futures/_base.py", line 425, in result
+    return self.__get_result()
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/concurrent/futures/_base.py", line 384, in __get_result
+    raise self._exception
+ValueError: Input contains NaN, infinity or a value too large for dtype('float32').
