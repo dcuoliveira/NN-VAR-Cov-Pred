@@ -4,6 +4,7 @@ from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import traceback
+import numpy as np
 
 from training import optimization as opt
 from utils import Pyutils as pyutils
@@ -67,6 +68,7 @@ def run_model_training(target_name,
                 X_validation_zscore = scaler.transform(X_validation)
                 X_test_zscore = scaler.transform(X_test)
 
+            # check which model we will run
             if ("ffnn" in model_tag) or ("dnn" in model_tag):
                 if wrapper_ovrd is not None:
                     ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]],
@@ -76,6 +78,11 @@ def run_model_training(target_name,
                     ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]]})
             else:
                 ModelWrapper = wrapper()
+
+            # check nan's in dataset
+            if np.any(np.isnan(X_train_zscore)) or np.any(np.isnan(X_validation_zscore)) or np.any(np.isnan(y_train)) or np.any(np.isnan(y_validation)):
+                print(d_name + " " + dir_name)
+                break
 
             if ModelWrapper.search_type == "direct_fit":
                 model_search = ModelWrapper.ModelClass.fit(X=X_train_zscore,

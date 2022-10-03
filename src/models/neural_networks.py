@@ -42,7 +42,7 @@ class FFNNWrapper():
         self.epochs = 50
         self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
 
-        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN)
+        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
 
         if model_params is not None:
             self.param_grid.update(model_params)
@@ -60,7 +60,7 @@ class FFNNWrapperWMSE():
         self.epochs = 50
         self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
 
-        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN)
+        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
 
         if model_params is not None:
             self.param_grid.update(model_params)
@@ -78,7 +78,7 @@ class DNN1Wrapper():
         self.epochs = 50
         self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
 
-        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN)
+        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
 
         if model_params is not None:
             self.param_grid.update(model_params)
