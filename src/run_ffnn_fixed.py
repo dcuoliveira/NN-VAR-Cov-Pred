@@ -19,8 +19,8 @@ if DEBUG:
         def __init__(self,
                      n_hidden=1,
                      n_neurons=10):
-            self.n_hidden=n_hidden
-            self.n_neurons=n_neurons
+            self.n_hidden = n_hidden
+            self.n_neurons = n_neurons
     args = Args()
 else:
     args = parser.parse_args()
@@ -29,7 +29,7 @@ N_JOBS = -1  # number of jobs to run in parallel
 N_SPLITS = 5  # number of splits (k) to be made within the k fold cv
 N_ITER = 20  # number of parameter settings that are sampled
 SEED = 2294
-VERBOSE = True
+VERBOSE = False
 INPUTS_PATH = os.path.join(os.getcwd(), "data", "inputs")
 OUTPUTS_PATH = os.path.join(os.getcwd(), "data", "outputs")
 LOG_PATH = os.path.join(os.getcwd(), "data", "log")
