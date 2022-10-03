@@ -42,10 +42,13 @@ def hyper_params_search(X,
 
     cv_splits = KFold(n_splits=n_splits)
 
-    if wrapper.param_grid['loss_name'][0] == "mse":
-        scorer = make_scorer(mean_squared_error)
-    else:
+    if wrapper.model_name == "ffnn":
         scorer = None
+    else:
+        if wrapper.param_grid['loss_name'][0] == "mse":
+            scorer = make_scorer(mean_squared_error)
+        else:
+            scorer = None
 
     if wrapper.search_type == 'random':
         model_search = RandomizedSearchCV(estimator=wrapper.ModelClass,
