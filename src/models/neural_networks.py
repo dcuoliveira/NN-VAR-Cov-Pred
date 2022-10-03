@@ -25,7 +25,7 @@ def FFNN(n_hidden,
         loss = lf.weighted_mean_squared_error
 
     optimizer = SGD(lr=learning_rate)
-    model.compile(loss=loss, optimizer=optimizer, metrics=[loss])
+    model.compile(loss=loss, optimizer=optimizer)
 
     return model
 
@@ -96,7 +96,7 @@ class FFNNFixedWrapper():
         self.epochs = 50
         self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
 
-        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN)
+        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
 
         if model_params is not None:
             self.param_grid.update(model_params)
