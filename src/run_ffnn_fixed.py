@@ -4,7 +4,7 @@ import argparse
 from training.runners import run_model_training
 from models.neural_networks import FFNNFixedWrapper
 
-DEBUG = False
+DEBUG = True
 
 parser = argparse.ArgumentParser()
 parser.add_argument('n_hidden',
@@ -18,9 +18,11 @@ if DEBUG:
     class Args:
         def __init__(self,
                      n_hidden=1,
-                     n_neurons=10):
+                     n_neurons=10,
+                     activation="relu"):
             self.n_hidden = n_hidden
             self.n_neurons = n_neurons
+            self.activation = activation
     args = Args()
 else:
     args = parser.parse_args()
@@ -35,7 +37,7 @@ OUTPUTS_PATH = os.path.join(os.getcwd(), "data", "outputs")
 LOG_PATH = os.path.join(os.getcwd(), "data", "log")
 DATASET_NAMES = ["betadgp_covdgp_data", "betadgp_beta2x2_data", "betadgp_data"]
 TARGET_NAME = "betas_dgp"
-MODEL_TAG = "ffnn" + "_" + str(args.n_hidden) + "_" + str(args.n_neurons)
+MODEL_TAG = "ffnn" + "_" + str(args.n_hidden) + "_" + str(args.n_neurons) + "_" + str(args.activation)
 STANDARDIZE = True
 TRAIN_SIZE = 0.7
 OUTPUT_OVRD = True
@@ -50,7 +52,7 @@ if __name__ == '__main__':
                                  standardize=STANDARDIZE,
                                  train_size=TRAIN_SIZE,
                                  wrapper=FFNNFixedWrapper,
-                                 wrapper_ovrd={"n_hidden": args.n_hidden, "n_neurons": args.n_neurons},
+                                 wrapper_ovrd={"n_hidden": args.n_hidden, "n_neurons": args.n_neurons, "activation": str(args.activation)},
                                  n_jobs=N_JOBS,
                                  n_splits=N_SPLITS,
                                  n_iter=N_ITER,

@@ -91,7 +91,7 @@ class FFNNFixedWrapper():
         self.param_grid = {"n_hidden": None,
                            "n_neurons": None,
                            "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
-                           "activation": ["relu"],
+                           "activation": None,
                            "loss_name": ["mse"]}
         self.epochs = 50
         self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
