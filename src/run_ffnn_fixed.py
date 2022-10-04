@@ -14,7 +14,7 @@ parser.add_argument('n_neurons',
                     type=int,
                     help='number of neurons per hidden layer to use in the FFNN architecture')
 parser.add_argument('activation',
-                    type=int,
+                    type=str,
                     help='type of activation to use in the FFNN architecture')
 
 if DEBUG:
