@@ -4,7 +4,7 @@ import argparse
 from training.runners import run_model_training
 from models.neural_networks import FFNNFixedWrapper
 
-DEBUG = True
+DEBUG = False
 
 parser = argparse.ArgumentParser()
 parser.add_argument('n_hidden',
