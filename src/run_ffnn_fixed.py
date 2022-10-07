@@ -31,8 +31,8 @@ else:
     args = parser.parse_args()
 
 N_JOBS = -1  # number of jobs to run in parallel
-N_SPLITS = 5  # number of splits (k) to be made within the k fold cv
-N_ITER = 20  # number of parameter settings that are sampled
+N_SPLITS = 10  # number of splits (k) to be made within the k fold cv
+N_ITER = 50  # number of parameter settings that are sampled
 SEED = 2294
 VERBOSE = False
 INPUTS_PATH = os.path.join(os.getcwd(), "data", "inputs")
@@ -40,7 +40,7 @@ OUTPUTS_PATH = os.path.join(os.getcwd(), "data", "outputs")
 LOG_PATH = os.path.join(os.getcwd(), "data", "log")
 DATASET_NAMES = ["betadgp_covdgp_data", "betadgp_beta2x2_data", "betadgp_data"]
 TARGET_NAME = "betas_dgp"
-MODEL_TAG = "ffnn" + "_" + str(args.n_hidden) + "_" + str(args.n_neurons) + "_" + str(args.activation)
+MODEL_TAG = "ffnn" + "_" + str(args.n_hidden) + "_" + str(args.n_neurons) + "_" + str(args.activation) + "_" + N_SPLITS + "_" + N_ITER
 STANDARDIZE = True
 TRAIN_SIZE = 0.7
 OUTPUT_OVRD = True
