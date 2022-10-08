@@ -16,23 +16,34 @@ parser.add_argument('n_neurons',
 parser.add_argument('activation',
                     type=str,
                     help='type of activation to use in the FFNN architecture')
+parser.add_argument('n_splits',
+                    type=int,
+                    help='number of cv splits')
+parser.add_argument('n_iter',
+                    type=int,
+                    help='number of samples to be taken from the hyperparameter space')
 
 if DEBUG:
     class Args:
         def __init__(self,
                      n_hidden=1,
                      n_neurons=10,
-                     activation="relu"):
+                     activation="relu",
+                     n_splits=10,
+                     n_iter=50):
             self.n_hidden = n_hidden
             self.n_neurons = n_neurons
             self.activation = activation
+            self.n_splits = n_splits
+            self.n_iter = n_iter
+
     args = Args()
 else:
     args = parser.parse_args()
 
 N_JOBS = -1  # number of jobs to run in parallel
-N_SPLITS = 10  # number of splits (k) to be made within the k fold cv
-N_ITER = 50  # number of parameter settings that are sampled
+N_SPLITS = args.n_splits  # number of splits (k) to be made within the k fold cv
+N_ITER = args.n_iter  # number of parameter settings that are sampled
 SEED = 2294
 VERBOSE = False
 INPUTS_PATH = os.path.join(os.getcwd(), "data", "inputs")
@@ -40,7 +51,7 @@ OUTPUTS_PATH = os.path.join(os.getcwd(), "data", "outputs")
 LOG_PATH = os.path.join(os.getcwd(), "data", "log")
 DATASET_NAMES = ["betadgp_covdgp_data", "betadgp_beta2x2_data", "betadgp_data"]
 TARGET_NAME = "betas_dgp"
-MODEL_TAG = "ffnn" + "_" + str(args.n_hidden) + "_" + str(args.n_neurons) + "_" + str(args.activation) + "_" + str(N_SPLITS) + "_" + str(N_ITER)
+MODEL_TAG = "ffnn" + "_" + str(args.n_hidden) + "_" + str(args.n_neurons) + "_" + str(args.activation) + "_" + str(args.n_splits) + "_" + str(args.n_iter)
 STANDARDIZE = True
 TRAIN_SIZE = 0.7
 OUTPUT_OVRD = True
