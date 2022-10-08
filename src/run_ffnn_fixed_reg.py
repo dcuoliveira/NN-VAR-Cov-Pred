@@ -16,6 +16,9 @@ parser.add_argument('n_neurons',
 parser.add_argument('activation',
                     type=str,
                     help='type of activation to use in the FFNN architecture')
+parser.add_argument('loss_name',
+                    type=str,
+                    help='name of the loss function to be used in the FFNN training')
 parser.add_argument('n_splits',
                     type=int,
                     help='number of cv splits')
@@ -29,11 +32,13 @@ if DEBUG:
                      n_hidden=1,
                      n_neurons=10,
                      activation="relu",
+                     loss_name="mse",
                      n_splits=10,
                      n_iter=50):
             self.n_hidden = n_hidden
             self.n_neurons = n_neurons
             self.activation = activation
+            self.loss_name = loss_name
             self.n_splits = n_splits
             self.n_iter = n_iter
 
