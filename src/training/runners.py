@@ -74,7 +74,8 @@ def run_model_training(target_name,
                     ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]],
                                                          "n_hidden": [wrapper_ovrd["n_hidden"]],
                                                          "n_neurons": [wrapper_ovrd["n_neurons"]],
-                                                         "activation": [wrapper_ovrd["activation"]]})
+                                                         "activation": [wrapper_ovrd["activation"]],
+                                                         "loss_name": [wrapper_ovrd["loss_name"]]})
                 else:
                     ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]]})
             else:
