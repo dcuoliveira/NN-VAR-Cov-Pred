@@ -39,8 +39,8 @@ class FFNNWrapper():
                            "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
                            "activation": ["relu"],
                            "loss_name": ["mse"]}
-        self.epochs = 50
-        self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
+        self.epochs = 100
+        self.callbacks = [keras.callbacks.EarlyStopping(patience=25)]
 
         self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
 
@@ -57,8 +57,8 @@ class FFNNWrapperWMSE():
                            "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
                            "activation": ["relu"],
                            "loss_name": ["wmse"]}
-        self.epochs = 50
-        self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
+        self.epochs = 100
+        self.callbacks = [keras.callbacks.EarlyStopping(patience=25)]
 
         self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
 
@@ -75,8 +75,8 @@ class DNN1Wrapper():
                            "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
                            "activation": ["relu"],
                            "loss_name": ["mse"]}
-        self.epochs = 50
-        self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
+        self.epochs = 100
+        self.callbacks = [keras.callbacks.EarlyStopping(patience=25)]
 
         self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
 
@@ -92,9 +92,9 @@ class FFNNFixedWrapper():
                            "n_neurons": None,
                            "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
                            "activation": None,
-                           "loss_name": ["mse"]}
-        self.epochs = 50
-        self.callbacks = [keras.callbacks.EarlyStopping(patience=10)]
+                           "loss_name": None}
+        self.epochs = 100
+        self.callbacks = [keras.callbacks.EarlyStopping(patience=25)]
 
         self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
 
