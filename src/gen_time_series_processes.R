@@ -14,8 +14,8 @@ OUTPUT_PATH = file.path(FILE_PATH, "src", "data", "inputs")
 MODELS = c("ar1")
 N = 100
 K_INIT = 150
-K = 500
-J = 1
+K = 300
+STEP = 50
 SEED = 02021994
 PROB_OF_CONNECTION = 0.1
 NETWORKS = c("random")
@@ -31,7 +31,7 @@ foreach (model=MODELS)  %dopar% {
   library("data.table")
   library("stringr")
   
-  for (k in K_INIT:K){
+  for (k in seq(K_INIT, K, by=STEP)){
     for (network in NETWORKS){
       output_name = paste0(model, "_", k, "_", network)
       new_folder = file.path(OUTPUT_PATH, output_name)
