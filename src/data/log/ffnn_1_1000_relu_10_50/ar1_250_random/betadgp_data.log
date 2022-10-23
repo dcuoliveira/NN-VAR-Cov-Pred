@@ -7,4 +7,4 @@ Traceback (most recent call last):
     self.best_estimator_ = clone(
   File "/home/danielco/miniconda3/lib/python3.9/site-packages/sklearn/base.py", line 95, in clone
     raise RuntimeError(
-RuntimeError: Cannot clone object <tensorflow.python.keras.wrappers.scikit_learn.KerasRegressor object at 0x7f5f22734940>, as the constructor either does not set or modifies parameter learning_rate
+RuntimeError: Cannot clone object <tensorflow.python.keras.wrappers.scikit_learn.KerasRegressor object at 0x7f8db607b760>, as the constructor either does not set or modifies parameter learning_rate
