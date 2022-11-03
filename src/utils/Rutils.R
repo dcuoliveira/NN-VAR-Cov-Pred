@@ -2,9 +2,9 @@ library("stringr")
 library("data.table")
 
 longitudinal_to_data.table = function(data){
-  
+
   data_out = list()
-  for (i in 1:dim(data)[1]){
+  for (i in 1:dim(data)[2]){
     data_out[[i]] = data[,i]
   }
   data_out = do.call("cbind", data_out) %>% as.data.table()
