@@ -6,7 +6,7 @@ from tensorflow.keras.optimizers import SGD
 
 from training import loss_functions as lf
 
-keras.utils.generic_utils.get_custom_objects().update({'swish': Activation(lf.swish)})
+keras.utils.get_custom_objects().update({'swish': Activation(lf.swish)})
 
 def FFNN(n_hidden,
          n_neurons,
