@@ -1,6 +1,5 @@
-from tensorflow import keras
 import tensorflow as tf
-from tensorflow.keras.utils.generic_utils import get_custom_objects
+from keras.utils.generic_utils import get_custom_objects
 from tensorflow.keras.layers import Activation
 
 def swish(x):
