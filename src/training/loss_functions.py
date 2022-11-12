@@ -1,11 +1,7 @@
 import tensorflow as tf
-from keras.utils.generic_utils import get_custom_objects
-from tensorflow.keras.layers import Activation
 
 def swish(x):
-    return (keras.backend.sigmoid(x) * x)
-
-get_custom_objects().update({'swish': Activation(swish)})
+    return (tf.keras.backend.sigmoid(x) * x)
 
 def weighted_mean_squared_error(y_true,
                                 y_pred,

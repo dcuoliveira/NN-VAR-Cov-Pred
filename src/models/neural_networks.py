@@ -1,10 +1,14 @@
 from tensorflow import keras
 import numpy as np
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import InputLayer, Dense
+from tensorflow.keras.layers import InputLayer, Dense, Activation
 from tensorflow.keras.optimizers import SGD
 
+from keras.utils.generic_utils import get_custom_objects
+
 from training import loss_functions as lf
+
+get_custom_objects().update({'swish': Activation(lf.swish)})
 
 def FFNN(n_hidden,
          n_neurons,
