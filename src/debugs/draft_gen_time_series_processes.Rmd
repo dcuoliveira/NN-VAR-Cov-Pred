@@ -14,7 +14,7 @@ FILE_PATH = dirname(dirname(getwd()))
 source(file.path(FILE_PATH, "src", "utils", "Rutils.R"))
 
 OUTPUT_PATH = file.path(FILE_PATH, "src", "data", "inputs")
-MODELS = c("ar2")
+MODELS = c("ar1")
 T = 1000
 K = 2
 SEED = 02021994
@@ -47,18 +47,6 @@ sigma
 ```{r}
 t(beta)
 ```
-
-```{r}
-X = dgp_data
-colnames(X) = c("X_1t", "X_2t")
-for (i in 1:2){
-  for (j in 1:dim(dgp_data)[2]){
-    X[[paste0("X_", j, "t", i)]] = lag(X[[paste0(paste0("X_", j, "t"))]], n = i)
-  }
-}
-cov(X %>% drop_na())
-```
-
 
 
 ```{r}
