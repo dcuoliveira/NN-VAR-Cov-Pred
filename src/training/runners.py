@@ -25,7 +25,8 @@ def run_model_training(target_name,
                        seed,
                        verbose,
                        output_ovrd,
-                       dir_name_ovrd=None):
+                       dir_name_ovrd=None,
+                       classification=False):
 
     # check if output dir for model_tag exists
     if not os.path.isdir(os.path.join(outputs_path, model_tag)):
@@ -60,6 +61,10 @@ def run_model_training(target_name,
             y_test = test_data[[target_name]].to_numpy()
             X_test = test_data.drop([target_name], axis=1).to_numpy()
 
+            if classification:
+                y_train = np.where(y_train >= 0, 1, 0)
+                y_test = np.where(y_test >= 0, 1, 0)
+
             if standardize:
                 X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train, train_size=train_size)
 
@@ -88,7 +93,7 @@ def run_model_training(target_name,
 
             if ModelWrapper.search_type == "direct_fit":
                 model_search = ModelWrapper.ModelClass.fit(X=X_train_zscore,
-                                                      y=y_train)
+                                                           y=y_train)
                 test_pred = model_search.predict(X_test_zscore)
 
             else:
