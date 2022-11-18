@@ -1,0 +1,32 @@
+Traceback (most recent call last):
+  File "/Users/danieloliveira/Documents/Daniel/codes/nn-var-cov-pred/src/training/runners.py", line 109, in run_model_training
+    verbose=verbose)
+  File "/Users/danieloliveira/Documents/Daniel/codes/nn-var-cov-pred/src/training/optimization.py", line 70, in hyper_params_search
+    raise Exception('search type method not registered')
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/sklearn/model_selection/_search.py", line 687, in fit
+    self._run_search(evaluate_candidates)
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/sklearn/model_selection/_search.py", line 1468, in _run_search
+    random_state=self.random_state))
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/sklearn/model_selection/_search.py", line 666, in evaluate_candidates
+    cv.split(X, y, groups)))
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/joblib/parallel.py", line 1041, in __call__
+    if self.dispatch_one_batch(iterator):
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/joblib/parallel.py", line 859, in dispatch_one_batch
+    self._dispatch(tasks)
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/joblib/parallel.py", line 777, in _dispatch
+    job = self._backend.apply_async(batch, callback=cb)
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/joblib/_parallel_backends.py", line 208, in apply_async
+    result = ImmediateResult(func)
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/joblib/_parallel_backends.py", line 572, in __init__
+    self.results = batch()
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/joblib/parallel.py", line 263, in __call__
+    for func, args, kwargs in self.items]
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/joblib/parallel.py", line 263, in <listcomp>
+    for func, args, kwargs in self.items]
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/sklearn/model_selection/_validation.py", line 514, in _fit_and_score
+    estimator.fit(X_train, y_train, **fit_params)
+  File "/Users/danieloliveira/opt/anaconda3/envs/dcuoliveira/lib/python3.6/site-packages/tensorflow_core/python/keras/wrappers/scikit_learn.py", line 157, in fit
+    self.model = self.build_fn(**self.filter_sk_params(self.build_fn))
+  File "/Users/danieloliveira/Documents/Daniel/codes/nn-var-cov-pred/src/models/neural_networks.py", line 30, in FFNN
+    model.compile(loss=loss, optimizer=optimizer)
+UnboundLocalError: local variable 'loss' referenced before assignment
