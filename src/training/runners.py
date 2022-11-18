@@ -74,7 +74,7 @@ def run_model_training(target_name,
                 X_test_zscore = scaler.transform(X_test)
 
             # check which model we will run
-            if ("ffnn" in model_tag) or ("dnn" in model_tag):
+            if ("ffnn" in model_tag):
                 if wrapper_ovrd is not None:
                     ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]],
                                                          "n_hidden": [wrapper_ovrd["n_hidden"]],
