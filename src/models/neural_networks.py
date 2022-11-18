@@ -46,7 +46,7 @@ def FFNNClass(n_hidden,
     model.add(Dense(1, activation='sigmoid'))
 
     if loss_name == "binaryx":
-        loss = loss_name
+        loss = "binary_crossentropy"
     elif loss_name == "wmse":
         loss = lf.weighted_mean_squared_error
 
@@ -103,7 +103,7 @@ class FFNNFixedClassWrapper():
         self.epochs = 100
         self.callbacks = [keras.callbacks.EarlyStopping(patience=25)]
 
-        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
+        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNNClass, verbose=0)
 
         if model_params is not None:
             self.param_grid.update(model_params)
