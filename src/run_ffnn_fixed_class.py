@@ -4,7 +4,7 @@ import argparse
 from training.runners import run_model_training
 from models.neural_networks import FFNNFixedClassWrapper
 
-DEBUG = False
+DEBUG = True
 
 parser = argparse.ArgumentParser()
 parser.add_argument('n_hidden',
@@ -46,7 +46,11 @@ if DEBUG:
 else:
     args = parser.parse_args()
 
-N_JOBS = -1  # number of jobs to run in parallel
+# number of jobs to run in parallel
+if DEBUG:
+    N_JOBS = 1
+else:
+    N_JOBS = -1
 N_SPLITS = args.n_splits  # number of splits (k) to be made within the k fold cv
 N_ITER = args.n_iter  # number of parameter settings that are sampled
 SEED = 2294

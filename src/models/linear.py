@@ -13,7 +13,7 @@ class LinearRegWrapper():
 class LogisticRegWrapper():
     def __init__(self, model_params={'fit_intercept': True, 'penalty': 'none', "solver": "lbfgs"}):
         self.model_name = "logit"
-        self.search_type = 'random'
+        self.search_type = 'direct_fit'
         self.param_grid = {}
         if model_params is None:
             self.ModelClass = LogisticRegression()

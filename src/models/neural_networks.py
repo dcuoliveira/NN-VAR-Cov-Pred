@@ -46,7 +46,7 @@ def FFNNClass(n_hidden,
     model.add(Dense(1, activation='sigmoid'))
 
     if loss_name == "binaryx":
-        loss = loss_name
+        loss = "binary_crossentropy"
     elif loss_name == "wmse":
         loss = lf.weighted_mean_squared_error
 
@@ -72,43 +72,6 @@ class FFNNWrapper():
 
         if model_params is not None:
             self.param_grid.update(model_params)
-
-
-class FFNNWrapperWMSE():
-    def __init__(self, model_params=None):
-        self.model_name = "ffnn"
-        self.search_type = 'random'
-        self.param_grid = {"n_hidden": np.arange(1, 10+1),
-                           "n_neurons": np.arange(1, 100+1),
-                           "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
-                           "activation": ["relu"],
-                           "loss_name": ["wmse"]}
-        self.epochs = 100
-        self.callbacks = [keras.callbacks.EarlyStopping(patience=25)]
-
-        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
-
-        if model_params is not None:
-            self.param_grid.update(model_params)
-
-
-class DNN1Wrapper():
-    def __init__(self, model_params=None):
-        self.model_name = "ffnn"
-        self.search_type = 'random'
-        self.param_grid = {"n_hidden": np.arange(1, 1000+1),
-                           "n_neurons": np.arange(1, 1000+1),
-                           "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
-                           "activation": ["relu"],
-                           "loss_name": ["mse"]}
-        self.epochs = 100
-        self.callbacks = [keras.callbacks.EarlyStopping(patience=25)]
-
-        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
-
-        if model_params is not None:
-            self.param_grid.update(model_params)
-
 
 class FFNNFixedWrapper():
     def __init__(self, model_params=None):
@@ -140,7 +103,7 @@ class FFNNFixedClassWrapper():
         self.epochs = 100
         self.callbacks = [keras.callbacks.EarlyStopping(patience=25)]
 
-        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
+        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNNClass, verbose=0)
 
         if model_params is not None:
             self.param_grid.update(model_params)

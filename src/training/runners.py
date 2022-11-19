@@ -62,8 +62,8 @@ def run_model_training(target_name,
             X_test = test_data.drop([target_name], axis=1).to_numpy()
 
             if classification:
-                y_train = np.where(y_train >= 0, 1, 0)
-                y_test = np.where(y_test >= 0, 1, 0)
+                y_train = np.where(y_train.__abs__() > 0, 1, 0)
+                y_test = np.where(y_test.__abs__() > 0, 1, 0)
 
             if standardize:
                 X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train, train_size=train_size)
@@ -74,7 +74,7 @@ def run_model_training(target_name,
                 X_test_zscore = scaler.transform(X_test)
 
             # check which model we will run
-            if ("ffnn" in model_tag) or ("dnn" in model_tag):
+            if ("ffnn" in model_tag):
                 if wrapper_ovrd is not None:
                     ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]],
                                                          "n_hidden": [wrapper_ovrd["n_hidden"]],
