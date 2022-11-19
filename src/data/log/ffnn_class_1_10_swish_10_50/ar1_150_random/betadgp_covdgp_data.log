@@ -1,0 +1,52 @@
+Traceback (most recent call last):
+  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/runners.py", line 109, in run_model_training
+    verbose=verbose)
+  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/optimization.py", line 76, in hyper_params_search
+    validation_data=validation_data)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 687, in fit
+    self._run_search(evaluate_candidates)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 1468, in _run_search
+    random_state=self.random_state))
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 666, in evaluate_candidates
+    cv.split(X, y, groups)))
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 1043, in __call__
+    if self.dispatch_one_batch(iterator):
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 861, in dispatch_one_batch
+    self._dispatch(tasks)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 779, in _dispatch
+    job = self._backend.apply_async(batch, callback=cb)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/_parallel_backends.py", line 208, in apply_async
+    result = ImmediateResult(func)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/_parallel_backends.py", line 572, in __init__
+    self.results = batch()
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 263, in __call__
+    for func, args, kwargs in self.items]
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 263, in <listcomp>
+    for func, args, kwargs in self.items]
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_validation.py", line 514, in _fit_and_score
+    estimator.fit(X_train, y_train, **fit_params)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/keras/wrappers/scikit_learn.py", line 166, in fit
+    history = self.model.fit(x, y, **fit_args)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/keras/engine/training.py", line 728, in fit
+    use_multiprocessing=use_multiprocessing)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/keras/engine/training_v2.py", line 324, in fit
+    total_epochs=epochs)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/keras/engine/training_v2.py", line 123, in run_one_epoch
+    batch_outs = execution_function(iterator)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/keras/engine/training_v2_utils.py", line 86, in execution_function
+    distributed_function(input_fn))
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/eager/def_function.py", line 457, in __call__
+    result = self._call(*args, **kwds)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/eager/def_function.py", line 487, in _call
+    return self._stateless_fn(*args, **kwds)  # pylint: disable=not-callable
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 1823, in __call__
+    return graph_function._filtered_call(args, kwargs)  # pylint: disable=protected-access
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 1141, in _filtered_call
+    self.captured_inputs)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 1224, in _call_flat
+    ctx, args, cancellation_manager=cancellation_manager)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/eager/function.py", line 511, in call
+    ctx=ctx)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/tensorflow_core/python/eager/execute.py", line 61, in quick_execute
+    num_outputs)
+KeyboardInterrupt
