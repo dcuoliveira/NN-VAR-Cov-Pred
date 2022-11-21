@@ -19,6 +19,10 @@ Traceback (most recent call last):
     return self.__get_result()
   File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/concurrent/futures/_base.py", line 384, in __get_result
     raise self._exception
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/reusable_executor.py", line 178, in submit
+    fn, *args, **kwargs)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/process_executor.py", line 1115, in submit
+    raise self._flags.broken
 joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
 
 The exit codes of the workers are {SIGKILL(-9)}
