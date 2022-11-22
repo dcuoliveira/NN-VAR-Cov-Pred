@@ -47,7 +47,7 @@ def run_model_training(target_name,
 
             if output_ovrd:
                 check_pickle = os.path.exists(os.path.join(outputs_path, model_tag, dir_name, d_name + "_model.pickle"))
-                check_pred = os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv")
+                check_pred = os.path.exists(os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv"))
                 if check_pickle and check_pred:
                     continue
 
