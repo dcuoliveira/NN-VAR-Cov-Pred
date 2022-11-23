@@ -25,4 +25,4 @@ Traceback (most recent call last):
     raise self._flags.broken
 joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
 
-The exit codes of the workers are {SIGKILL(-9), SIGKILL(-9), SIGKILL(-9), SIGKILL(-9)}
+The exit codes of the workers are {SIGKILL(-9)}
