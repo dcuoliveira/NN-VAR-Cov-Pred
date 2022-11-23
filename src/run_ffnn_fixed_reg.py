@@ -46,7 +46,11 @@ if DEBUG:
 else:
     args = parser.parse_args()
 
-N_JOBS = -1  # number of jobs to run in parallel
+# number of jobs to run in parallel
+if DEBUG:
+    N_JOBS = 1
+else:
+    N_JOBS = os.cpu_count() - 5
 N_SPLITS = args.n_splits  # number of splits (k) to be made within the k fold cv
 N_ITER = args.n_iter  # number of parameter settings that are sampled
 SEED = 2294
