@@ -57,6 +57,7 @@ def hyper_params_search(X,
                                           cv=cv_splits,
                                           verbose=verbose,
                                           n_jobs=n_jobs,
+                                          pre_dispatch=n_jobs,
                                           scoring=scorer,
                                           random_state=seed)
     elif wrapper.search_type == 'grid':
