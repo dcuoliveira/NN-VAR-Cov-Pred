@@ -1,7 +1,7 @@
 from sklearn.linear_model import LinearRegression, LogisticRegression
 
 class LinearRegWrapper():
-    def __init__(self, model_params={'fit_intercept': True}):
+    def __init__(self, model_params={'fit_intercept': False}):
         self.model_name = "linear_reg"
         self.search_type = 'direct_fit'
         self.param_grid = {}
@@ -11,7 +11,7 @@ class LinearRegWrapper():
             self.ModelClass = LinearRegression(**model_params)
 
 class LogisticRegWrapper():
-    def __init__(self, model_params={'fit_intercept': True, 'penalty': 'none', "solver": "lbfgs"}):
+    def __init__(self, model_params={'fit_intercept': False, 'penalty': 'none', "solver": "lbfgs"}):
         self.model_name = "logit"
         self.search_type = 'direct_fit'
         self.param_grid = {}
