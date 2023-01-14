@@ -62,8 +62,8 @@ def run_model_training(target_name,
             X_test = test_data.drop([target_name], axis=1).to_numpy()
 
             if classification:
-                y_train = np.where(y_train.__abs__() > 0, 1, 0)
-                y_test = np.where(y_test.__abs__() > 0, 1, 0)
+                y_train = np.where(train_data[[target_name]].to_numpy().__abs__() > 0, 1, 0)
+                y_test = np.where(test_data[[target_name]].to_numpy().__abs__() > 0, 1, 0)
 
             if standardize:
                 X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train, train_size=train_size)
@@ -94,7 +94,7 @@ def run_model_training(target_name,
             if ModelWrapper.search_type == "direct_fit":
                 model_search = ModelWrapper.ModelClass.fit(X=X_train_zscore,
                                                            y=y_train)
-                test_pred = model_search.predict(X_test_zscore)
+                test_pred = model_search.predict_proba(X_test_zscore)[:, 1]
 
             else:
                 try:
@@ -107,7 +107,7 @@ def run_model_training(target_name,
                                                            n_iter=n_iter,
                                                            seed=seed,
                                                            verbose=verbose)
-                    test_pred = model_search.best_estimator_.predict(X_test_zscore)
+                    test_pred = model_search.best_estimator_.predict_proba(X_test_zscore)
                 except:
                     str_traceback = traceback.format_exc()
 
