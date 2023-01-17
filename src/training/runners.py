@@ -94,7 +94,10 @@ def run_model_training(target_name,
             if ModelWrapper.search_type == "direct_fit":
                 model_search = ModelWrapper.ModelClass.fit(X=X_train_zscore,
                                                            y=y_train)
-                test_pred = model_search.predict_proba(X_test_zscore)[:, 1]
+                if classification:
+                    test_pred = model_search.predict_proba(X_test_zscore)[:, 1]
+                else:
+                    test_pred = model_search.predict(X_test_zscore)
 
             else:
                 try:
