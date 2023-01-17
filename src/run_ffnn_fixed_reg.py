@@ -31,7 +31,7 @@ if DEBUG:
         def __init__(self,
                      n_hidden=1,
                      n_neurons=10,
-                     activation="relu",
+                     activation="swish",
                      loss_name="mse",
                      n_splits=10,
                      n_iter=50):
@@ -55,10 +55,10 @@ N_SPLITS = args.n_splits  # number of splits (k) to be made within the k fold cv
 N_ITER = args.n_iter  # number of parameter settings that are sampled
 SEED = 2294
 VERBOSE = False
-INPUTS_PATH = os.path.join(os.getcwd(), "data", "inputs")
-OUTPUTS_PATH = os.path.join(os.getcwd(), "data", "outputs")
-LOG_PATH = os.path.join(os.getcwd(), "data", "log")
-DATASET_NAMES = ["betadgp_covdgp_data", "betadgp_beta2x2_data", "betadgp_data"]
+INPUTS_PATH = os.path.join(os.getcwd(), "src", "data", "inputs")
+OUTPUTS_PATH = os.path.join(os.getcwd(), "src", "data", "outputs")
+LOG_PATH = os.path.join(os.getcwd(), "src", "data", "log")
+DATASET_NAMES = ["betadgp_corrdgp_data", "betadgp_covdgp_data", "betadgp_beta2x2_data"]
 TARGET_NAME = "betas_dgp"
 MODEL_TAG = "ffnn" + "_" + str(args.n_hidden) + "_" + str(args.n_neurons) + "_" + str(args.activation) + "_" + str(args.n_splits) + "_" + str(args.n_iter)
 STANDARDIZE = True
@@ -82,4 +82,5 @@ if __name__ == '__main__':
                                  n_iter=N_ITER,
                                  seed=SEED,
                                  verbose=VERBOSE,
+                                 dir_name_ovrd=["simple_ar"],
                                  output_ovrd=OUTPUT_OVRD)
