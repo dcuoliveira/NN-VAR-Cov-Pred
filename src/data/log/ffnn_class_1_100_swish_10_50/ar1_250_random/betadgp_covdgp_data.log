@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/runners.py", line 112, in run_model_training
+    verbose=verbose)
+  File "/home/danielco/Downloads/nn-var-cov-pred/src/training/optimization.py", line 77, in hyper_params_search
+    validation_data=validation_data)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 891, in fit
+    self._run_search(evaluate_candidates)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 1768, in _run_search
+    self.param_distributions, self.n_iter, random_state=self.random_state
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/sklearn/model_selection/_search.py", line 851, in evaluate_candidates
+    enumerate(candidate_params), enumerate(cv.split(X, y, groups))
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 1056, in __call__
+    self.retrieve()
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/parallel.py", line 935, in retrieve
+    self._output.extend(job.get(timeout=self.timeout))
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/_parallel_backends.py", line 542, in wrap_future_result
+    return future.result(timeout=timeout)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/concurrent/futures/_base.py", line 432, in result
+    return self.__get_result()
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/concurrent/futures/_base.py", line 384, in __get_result
+    raise self._exception
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/reusable_executor.py", line 178, in submit
+    fn, *args, **kwargs)
+  File "/home/danielco/miniconda3/envs/dcunhao/lib/python3.7/site-packages/joblib/externals/loky/process_executor.py", line 1115, in submit
+    raise self._flags.broken
+joblib.externals.loky.process_executor.TerminatedWorkerError: A worker process managed by the executor was unexpectedly terminated. This could be caused by a segmentation fault while calling the function or by an excessive memory usage causing the Operating System to kill the worker.
+
+The exit codes of the workers are {SIGKILL(-9)}
