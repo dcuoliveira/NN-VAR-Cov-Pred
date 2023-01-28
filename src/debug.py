@@ -5,7 +5,7 @@ from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 import optuna
 
-class DynamicFeedforward(torch.nn.Module):
+class MLP(torch.nn.Module):
     def __init__(self, input_size, n_layers, n_units, bias):
         super().__init__()
         self.input_size = input_size
@@ -28,15 +28,32 @@ class DynamicFeedforward(torch.nn.Module):
         
         return output
 
-# Build neural network model
-def build_model(params):    
-    return DynamicFeedforward(input_size=params["input_size"], n_layers=params["n_layers"], n_units=params["n_units"], bias=True)
+class MLPWrapper():
+    def __init__(self, trial):
+        self.model_name = "mlp"
+        self.search_type = 'random'
+        self.params = {
+              'learning_rate': trial.suggest_loguniform('learning_rate', 1e-5, 1e-1),
+              'n_units': trial.suggest_int("n_unit", 10, 100),
+              'n_layers': trial.suggest_int("n_layers", 10, 10),
+              'optimizer': trial.suggest_categorical("optimizer", ["SGD"]),
+              'input_size': trial.suggest_int("input_size", data.drop([target_name], axis=1).shape[1], data.drop([target_name], axis=1).shape[1]),
+              }
+        self.epochs = 100
+
+        self.ModelClass = MLP(input_size=self.params["input_size"],
+                              n_layers=self.params["n_layers"],
+                              n_units=self.params["n_units"],
+                              bias=True)
  
-# Train and evaluate the accuarcy of neural network model
-def train_and_evaluate(param, data, target_name, model, epochs, criterion, verbose, trial):
+def train_and_evaluate(data, target_name, model_wrapper, criterion, verbose, trial):
+
+    model_wrapper = model_wrapper(trial)
     
-    # train_dataloader = torch.utils.data.DataLoader(train, batch_size=2, shuffle=True)
-    # val_dataloader = torch.utils.data.DataLoader(val, batch_size=2)
+    model = model_wrapper.ModelClass
+    param = model_wrapper.params
+    epochs = model_wrapper.epochs
+
     y = data[target_name].values
     X = data.drop([target_name], axis=1).values
 
@@ -54,7 +71,6 @@ def train_and_evaluate(param, data, target_name, model, epochs, criterion, verbo
     loss_values = []
     for i in tqdm(range(epochs), total=epochs, desc="Running backpropagation", disable=not verbose):
         # computer forward prediction
-        # if first iter, use random init
         y_hat = model.forward(X_train)
 
         # computes the loss function
@@ -62,6 +78,7 @@ def train_and_evaluate(param, data, target_name, model, epochs, criterion, verbo
         loss_arr.append(loss)
         loss_values.append(loss.item())
         
+        # report loss result
         trial.report(loss.item(), i)
 
         # set all previous gradients to zero
@@ -70,6 +87,7 @@ def train_and_evaluate(param, data, target_name, model, epochs, criterion, verbo
         # backpropagation
         # computes gradient of current tensor given loss and opt procedure
         loss.backward()
+        
         # update parameters
         optimizer.step()
 
@@ -83,21 +101,15 @@ def train_and_evaluate(param, data, target_name, model, epochs, criterion, verbo
     test_loss = criterion(preds, y_test)
 
     return test_loss
-    
-    return loss.item() 
-  
-def objective(data, target_name, epochs, criterion, verbose, trial):
-
-     params = {
-              'learning_rate': trial.suggest_loguniform('learning_rate', 1e-5, 1e-1),
-              'n_units': trial.suggest_int("n_unit", 10, 100),
-              'n_layers': trial.suggest_int("n_layers", 10, 10),
-              'optimizer': trial.suggest_categorical("optimizer", ["SGD"]),
-              'input_size': trial.suggest_int("input_size", data.drop([target_name], axis=1).shape[1], data.drop([target_name], axis=1).shape[1]),
-              }
-    
-     model = build_model(params)
-     loss = train_and_evaluate(params, data, target_name, model, epochs, criterion, verbose, trial)
+      
+def objective(data, model_wrapper, target_name, criterion, verbose, trial):
+         
+     loss = train_and_evaluate(data=data,
+                               model_wrapper=model_wrapper,
+                               target_name=target_name,
+                               criterion=criterion,
+                               verbose=verbose,
+                               trial=trial)
 
      return loss
 
@@ -110,11 +122,21 @@ if __name__ == "__main__":
     epochs = 100
     criterion = torch.nn.MSELoss()
     verbose = False
+    model_wrapper = MLPWrapper
 
     data = pd.read_csv(os.path.join(target_path, "betadgp_corrdgp_data.csv")).drop(["Var1", "Var2"], axis=1)
 
     study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler())
-    study.optimize(lambda trial: objective(data, target_name, epochs, criterion, verbose, trial), n_trials=5)
+    study.optimize(lambda trial: objective(
+
+        data=data,
+        target_name=target_name,
+        model_wrapper=model_wrapper,
+        criterion=criterion,
+        verbose=verbose,
+        trial=trial
+
+        ), n_trials=5)
 
     best_trial = study.best_trial
     for key, value in best_trial.params.items():
