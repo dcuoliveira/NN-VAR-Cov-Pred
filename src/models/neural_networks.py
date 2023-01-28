@@ -1,109 +1,42 @@
-from tensorflow import keras
-import numpy as np
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import InputLayer, Dense, Activation
-from tensorflow.keras.optimizers import SGD
+import torch
 
-from training import loss_functions as lf
+class MLP(torch.nn.Module):
+    def __init__(self, input_size, n_layers, n_units, bias):
+        super().__init__()
+        self.input_size = input_size
+        self.n_units  = n_units
+        self.n_layers = n_layers
+        self.bias = bias
+        
+        self.input_layer = torch.nn.Linear(self.input_size, self.n_units, bias=self.bias)
+        self.relu = torch.nn.ReLU()
+        self.hidden_layer = torch.nn.Linear(self.n_units, self.n_units, bias=self.bias)
+        self.output_layer = torch.nn.Linear(self.n_units, 1, bias=self.bias)
+    def forward(self, x):
+        x = self.input_layer(x)
+        
+        for l in range(self.n_layers):
+            x = self.hidden_layer(x)
+            x = self.relu(x)
+                    
+        output = self.output_layer(x)
+        
+        return output
 
-keras.utils.get_custom_objects().update({'swish': Activation(lf.swish)})
-
-def FFNN(n_hidden,
-         n_neurons,
-         input_shape,
-         learning_rate,
-         activation,
-         loss_name):
-    model = Sequential()
-    model.add(InputLayer(input_shape=input_shape))
-
-    for layer in range(n_hidden):
-        model.add(Dense(n_neurons, activation=activation))
-    model.add(Dense(1))
-
-    if loss_name == "mse":
-        loss = loss_name
-    elif loss_name == "wmse":
-        loss = lf.weighted_mean_squared_error
-
-    optimizer = SGD(lr=learning_rate)
-    model.compile(loss=loss, optimizer=optimizer)
-
-    return model
-
-
-def FFNNClass(n_hidden,
-              n_neurons,
-              input_shape,
-              learning_rate,
-              activation,
-              loss_name):
-    model = Sequential()
-    model.add(InputLayer(input_shape=input_shape))
-
-    for layer in range(n_hidden):
-        model.add(Dense(n_neurons, activation=activation))
-    model.add(Dense(1, activation='sigmoid'))
-
-    if loss_name == "binaryx":
-        loss = "binary_crossentropy"
-    elif loss_name == "wmse":
-        loss = lf.weighted_mean_squared_error
-
-    optimizer = SGD(lr=learning_rate)
-    model.compile(loss=loss, optimizer=optimizer, metrics=['accuracy'])
-
-    return model
-
-
-class FFNNWrapper():
-    def __init__(self, model_params=None):
-        self.model_name = "ffnn"
+class MLPWrapper():
+    def __init__(self, input_size, trial):
+        self.model_name = "mlp"
         self.search_type = 'random'
-        self.param_grid = {"n_hidden": np.arange(1, 10+1),
-                           "n_neurons": np.arange(1, 100+1),
-                           "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
-                           "activation": ["relu"],
-                           "loss_name": ["mse"]}
+        self.params = {
+              'learning_rate': trial.suggest_loguniform('learning_rate', 1e-5, 1e-1),
+              'n_units': trial.suggest_int("n_unit", 10, 100),
+              'n_layers': trial.suggest_int("n_layers", 10, 10),
+              'optimizer': trial.suggest_categorical("optimizer", ["SGD"]),
+              'input_size': trial.suggest_int("input_size", input_size, input_size),
+              }
         self.epochs = 100
-        self.callbacks = [keras.callbacks.EarlyStopping(patience=25)]
 
-        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
-
-        if model_params is not None:
-            self.param_grid.update(model_params)
-
-class FFNNFixedWrapper():
-    def __init__(self, model_params=None):
-        self.model_name = "ffnn"
-        self.search_type = 'random'
-        self.param_grid = {"n_hidden": None,
-                           "n_neurons": None,
-                           "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
-                           "activation": None,
-                           "loss_name": None}
-        self.epochs = 100
-        self.callbacks = [keras.callbacks.EarlyStopping(patience=25)]
-
-        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNN, verbose=0)
-
-        if model_params is not None:
-            self.param_grid.update(model_params)
-
-
-class FFNNFixedClassWrapper():
-    def __init__(self, model_params=None):
-        self.model_name = "ffnn"
-        self.search_type = 'random'
-        self.param_grid = {"n_hidden": None,
-                           "n_neurons": None,
-                           "learning_rate": list(1e-3 * (10 ** (np.arange(100) / 30))),
-                           "activation": None,
-                           "loss_name": None}
-        self.epochs = 100
-        self.callbacks = [keras.callbacks.EarlyStopping(patience=25)]
-
-        self.ModelClass = keras.wrappers.scikit_learn.KerasRegressor(FFNNClass, verbose=0)
-
-        if model_params is not None:
-            self.param_grid.update(model_params)
+        self.ModelClass = MLP(input_size=self.params["input_size"],
+                              n_layers=self.params["n_layers"],
+                              n_units=self.params["n_units"],
+                              bias=True)
