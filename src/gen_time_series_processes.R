@@ -14,8 +14,8 @@ OUTPUT_PATH = file.path(FILE_PATH, "src", "data", "inputs")
 MODELS = c("ar1")
 N = 100
 K_INIT = 150
-K = 500
-J = 1
+K = 300
+STEP = 50
 SEED = 02021994
 PROB_OF_CONNECTION = 0.1
 NETWORKS = c("random")
@@ -31,7 +31,7 @@ foreach (model=MODELS)  %dopar% {
   library("data.table")
   library("stringr")
   
-  for (k in K_INIT:K){
+  for (k in seq(K_INIT, K, by=STEP)){
     for (network in NETWORKS){
       output_name = paste0(model, "_", k, "_", network)
       new_folder = file.path(OUTPUT_PATH, output_name)
@@ -63,7 +63,7 @@ foreach (model=MODELS)  %dopar% {
       betas_dgp = mts$gamma
       y_dgp = melt(betas_dgp) %>% as.data.table() %>% rename(betas_dgp=value)
       cov_dgp = melt(mts$sigma) %>% as.data.table() %>% rename(cov_dgp=value)
-      betadgp_covdgp_data = merge(y_dgp, cov_dgp)
+      betadgp_covdgp_data = merge(y_dgp, cov_dgp) %>% filter((Var1 != Var2))
       fwrite(x = betadgp_covdgp_data,
              file = file.path(new_folder, "betadgp_covdgp_data.csv"),
              row.names = FALSE)
@@ -71,13 +71,13 @@ foreach (model=MODELS)  %dopar% {
       # betas_dgp = f(betas_2x2)
       simulation_dgp = mts$data1 %>% longitudinal_to_data.table()
       beta2x2_data = lm_combination_2x2(data=simulation_dgp)
-      betadgp_beta2x2_data = merge(y_dgp, beta2x2_data)
+      betadgp_beta2x2_data = merge(y_dgp, beta2x2_data) %>% filter((Var1 != Var2))
       fwrite(x = betadgp_covdgp_data,
              file = file.path(new_folder, "betadgp_beta2x2_data.csv"),
              row.names = FALSE)
       
       # all covariates
-      betadgp_data = merge(betadgp_covdgp_data, beta2x2_data)
+      betadgp_data = merge(betadgp_covdgp_data, beta2x2_data) %>% filter((Var1 != Var2))
       fwrite(x = betadgp_data,
              file = file.path(new_folder, "betadgp_data.csv"),
              row.names = FALSE)
@@ -92,18 +92,18 @@ foreach (model=MODELS)  %dopar% {
       betas_dgp_test = mts_test$gamma
       y_dgp_test = melt(betas_dgp_test) %>% as.data.table() %>% rename(betas_dgp=value)
       cov_dgp_test = melt(mts_test$sigma) %>% as.data.table() %>% rename(cov_dgp=value)
-      betadgp_covdgp_data_test = merge(y_dgp_test, cov_dgp_test)
+      betadgp_covdgp_data_test = merge(y_dgp_test, cov_dgp_test) %>% filter((Var1 != Var2))
       fwrite(x = betadgp_covdgp_data_test,
              file = file.path(new_folder, "betadgp_covdgp_data_test.csv"),
              row.names = FALSE)
       simulation_dgp_test = mts_test$data1 %>% longitudinal_to_data.table()
       beta2x2_data_test = lm_combination_2x2(data=simulation_dgp_test)
-      betadgp_beta2x2_data_test = merge(y_dgp_test, beta2x2_data_test)
+      betadgp_beta2x2_data_test = merge(y_dgp_test, beta2x2_data_test) %>% filter((Var1 != Var2))
       fwrite(x = betadgp_beta2x2_data_test,
              file = file.path(new_folder, "betadgp_beta2x2_data_test.csv"),
              row.names = FALSE)
       betadgp_data_test = merge(betadgp_covdgp_data_test,
-                                betadgp_beta2x2_data_test %>% select(Var1, Var2, beta_2x2))
+                                betadgp_beta2x2_data_test %>% select(Var1, Var2, beta_2x2)) %>% filter((Var1 != Var2))
       fwrite(x = betadgp_data_test,
              file = file.path(new_folder, "betadgp_data_test.csv"),
              row.names = FALSE)

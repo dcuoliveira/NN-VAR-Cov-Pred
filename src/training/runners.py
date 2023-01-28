@@ -4,6 +4,7 @@ from tqdm import tqdm
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import traceback
+import numpy as np
 
 from training import optimization as opt
 from utils import Pyutils as pyutils
@@ -17,13 +18,15 @@ def run_model_training(target_name,
                        standardize,
                        train_size,
                        wrapper,
+                       wrapper_ovrd,
                        n_jobs,
                        n_splits,
                        n_iter,
                        seed,
                        verbose,
                        output_ovrd,
-                       dir_name_ovrd=None):
+                       dir_name_ovrd=None,
+                       classification=False):
 
     # check if output dir for model_tag exists
     if not os.path.isdir(os.path.join(outputs_path, model_tag)):
@@ -44,7 +47,7 @@ def run_model_training(target_name,
 
             if output_ovrd:
                 check_pickle = os.path.exists(os.path.join(outputs_path, model_tag, dir_name, d_name + "_model.pickle"))
-                check_pred = os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv")
+                check_pred = os.path.exists(os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv"))
                 if check_pickle and check_pred:
                     continue
 
@@ -58,6 +61,10 @@ def run_model_training(target_name,
             y_test = test_data[[target_name]].to_numpy()
             X_test = test_data.drop([target_name], axis=1).to_numpy()
 
+            if classification:
+                y_train = np.where(train_data[[target_name]].to_numpy().__abs__() > 0, 1, 0)
+                y_test = np.where(test_data[[target_name]].to_numpy().__abs__() > 0, 1, 0)
+
             if standardize:
                 X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train, train_size=train_size)
 
@@ -66,15 +73,31 @@ def run_model_training(target_name,
                 X_validation_zscore = scaler.transform(X_validation)
                 X_test_zscore = scaler.transform(X_test)
 
-            if "ffnn" in model_tag:
-                ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]]})
+            # check which model we will run
+            if ("ffnn" in model_tag):
+                if wrapper_ovrd is not None:
+                    ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]],
+                                                         "n_hidden": [wrapper_ovrd["n_hidden"]],
+                                                         "n_neurons": [wrapper_ovrd["n_neurons"]],
+                                                         "activation": [wrapper_ovrd["activation"]],
+                                                         "loss_name": [wrapper_ovrd["loss_name"]]})
+                else:
+                    ModelWrapper = wrapper(model_params={"input_shape": [X_train.shape[1]]})
             else:
                 ModelWrapper = wrapper()
 
+            # check nan's in dataset
+            if np.any(np.isnan(X_train_zscore)) or np.any(np.isnan(X_validation_zscore)) or np.any(np.isnan(y_train)) or np.any(np.isnan(y_validation)):
+                print(d_name + " " + dir_name)
+                break
+
             if ModelWrapper.search_type == "direct_fit":
                 model_search = ModelWrapper.ModelClass.fit(X=X_train_zscore,
-                                                      y=y_train)
-                test_pred = model_search.predict(X_test_zscore)
+                                                           y=y_train)
+                if classification:
+                    test_pred = model_search.predict_proba(X_test_zscore)[:, 1]
+                else:
+                    test_pred = model_search.predict(X_test_zscore)
 
             else:
                 try:
@@ -87,7 +110,7 @@ def run_model_training(target_name,
                                                            n_iter=n_iter,
                                                            seed=seed,
                                                            verbose=verbose)
-                    test_pred = model_search.best_estimator_.predict(X_test_zscore)
+                    test_pred = model_search.best_estimator_.predict_proba(X_test_zscore)
                 except:
                     str_traceback = traceback.format_exc()
 

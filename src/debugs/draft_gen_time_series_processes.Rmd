@@ -1,0 +1,63 @@
+```{r}
+rm(list=ls())
+gc()
+library('SparseTSCGM')
+library('dplyr')
+library("tidyr")
+library("data.table")
+library("ggplot2")
+```
+
+```{r}
+FILE_PATH = dirname(dirname(getwd()))
+
+source(file.path(FILE_PATH, "src", "utils", "Rutils.R"))
+
+OUTPUT_PATH = file.path(FILE_PATH, "src", "data", "inputs")
+MODELS = c("ar1")
+T = 1000
+K = 2
+SEED = 02021994
+PROB_OF_CONNECTION = 0.9
+NETWORKS = c("random")
+```
+
+```{r}
+mts = sim.data(model=MODELS[1],
+               time=1,
+               n.obs=T, 
+               n.var=K,
+               seed=SEED,
+               prob0=PROB_OF_CONNECTION,
+               network=NETWORKS[1])
+sigma = mts$sigma %>% as.data.table()
+colnames(sigma) = gsub("V", "", colnames(sigma))
+
+beta = mts$gamma %>% as.data.table()
+colnames(beta) = gsub("V", "", colnames(beta))
+
+dgp_data = mts$data1 %>% longitudinal_to_data.table()
+```
+
+```{r}
+sigma
+```
+
+
+```{r}
+t(beta)
+```
+
+
+```{r}
+tmp <- dgp_data
+colnames(tmp) = c("x_1t", "x_2t")
+tmp$date = seq(1, dim(dgp_data)[1])
+melt_dgp_data = melt(tmp, "date")
+ggplot(data=melt_dgp_data, aes(x=date, y=value, group=variable, colour=variable)) + 
+  geom_line() +
+  ggtitle("Random samples from a VAR(1) process")+geom_point()
+ 
+```
+
+
