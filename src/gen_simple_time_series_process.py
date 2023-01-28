@@ -20,6 +20,9 @@ while i < 10000:
 
 target_path = os.path.join(os.getcwd(), "src", "data", "inputs", "simple_ar")
 
+if not os.path.isdir(os.path.join(target_path)):
+    os.mkdir(os.path.join(target_path))
+
 j = 0
 k = 0
 m = 0
@@ -55,9 +58,9 @@ betadgp_beta2x2_df = pd.concat(betadgp_beta2x2, axis=0)
 cov2x2_df = pd.concat(cov2x2, axis=0)
 corr2x2_df = pd.concat(corr2x2, axis=0)
 
-corr2x2_df.reset_index().reset_index().rename(columns={"level_0": "Var1", "index": "Var2"}).to_csv(os.path.join(target_path, "betadgp_corrdgp_data.csv"), index=False)
-cov2x2_df.reset_index().reset_index().rename(columns={"level_0": "Var1", "index": "Var2"}).to_csv(os.path.join(target_path, "betadgp_covdgp_data.csv"), index=False)
-betadgp_beta2x2_df.reset_index().reset_index().rename(columns={"level_0": "Var1", "index": "Var2"}).to_csv(os.path.join(target_path, "betadgp_beta2x2_data.csv"), index=False)
+corr2x2_df.reset_index().reset_index().rename(columns={"level_0": "Var1", "index": "Var2"}).to_csv(os.path.join(target_path, "betadgp_corrdgp_data_train.csv"), index=False)
+cov2x2_df.reset_index().reset_index().rename(columns={"level_0": "Var1", "index": "Var2"}).to_csv(os.path.join(target_path, "betadgp_covdgp_data_train.csv"), index=False)
+betadgp_beta2x2_df.reset_index().reset_index().rename(columns={"level_0": "Var1", "index": "Var2"}).to_csv(os.path.join(target_path, "betadgp_beta2x2_data_train.csv"), index=False)
 
 j = 0
 k = 0
