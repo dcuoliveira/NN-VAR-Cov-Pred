@@ -51,7 +51,7 @@ def run_model_training(target_name,
                 if check_pickle and check_pred:
                     continue
 
-            train_data = pd.read_csv(os.path.join(inputs_path, dir_name, d_name + ".csv"))
+            train_data = pd.read_csv(os.path.join(inputs_path, dir_name, d_name + "_train.csv"))
             train_data.set_index(["Var1", "Var2"], inplace=True)
             y_train = train_data[[target_name]].to_numpy()
             X_train = train_data.drop([target_name], axis=1).to_numpy()
