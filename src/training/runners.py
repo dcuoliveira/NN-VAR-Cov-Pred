@@ -239,20 +239,10 @@ def run_new_model_training(target_name,
                                    "Var2": test_data.reset_index()["Var2"],
                                    "y": y_test.ravel(),
                                    "pred": study.best_trial.user_attrs["test_predictions"].squeeze()})
-            model_output = study
 
-            # # check if output dir for model_tag AND dir_name exists
-            # if not os.path.isdir(os.path.join(outputs_path, model_tag, dir_name)):
-            #     os.mkdir(os.path.join(outputs_path, model_tag, dir_name))
+            # check if output dir for model_tag AND dir_name exists
+            if not os.path.isdir(os.path.join(outputs_path, model_tag, dir_name)):
+                os.mkdir(os.path.join(outputs_path, model_tag, dir_name))
 
-            # output.to_csv(os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv"), index=False)
-
-            # if ModelWrapper.search_type == "direct_fit":
-            #     out = {"coef": model_search.coef_}
-            #     pyutils.save_pkl(data=out,
-            #                      path=os.path.join(outputs_path, model_tag, dir_name, d_name + "_model.pickle"))
-            # else:
-            #     out = model_search.best_params_
-            #     pyutils.save_pkl(data=out,
-            #                      path=os.path.join(outputs_path, model_tag, dir_name, d_name + "_model.pickle"))
+            output.to_csv(os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv"), index=False)
 
