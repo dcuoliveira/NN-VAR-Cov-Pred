@@ -29,7 +29,7 @@ class MLP(torch.nn.Module):
         return output
 
 class MLPWrapper():
-    def __init__(self, trial):
+    def __init__(self, input_size, trial):
         self.model_name = "mlp"
         self.search_type = 'random'
         self.params = {
@@ -48,14 +48,14 @@ class MLPWrapper():
  
 def train_and_evaluate(data, target_name, model_wrapper, criterion, verbose, trial):
 
-    model_wrapper = model_wrapper(trial)
+    y = data[target_name].values
+    X = data.drop([target_name], axis=1).values
+
+    model_wrapper = model_wrapper(input_size=X.shape[1], trial=trial)
     
     model = model_wrapper.ModelClass
     param = model_wrapper.params
     epochs = model_wrapper.epochs
-
-    y = data[target_name].values
-    X = data.drop([target_name], axis=1).values
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     verbose = False
     model_wrapper = MLPWrapper
 
-    data = pd.read_csv(os.path.join(target_path, "betadgp_corrdgp_data.csv")).drop(["Var1", "Var2"], axis=1)
+    data = pd.read_csv(os.path.join(target_path, "betadgp_corrdgp_data_train.csv")).drop(["Var1", "Var2"], axis=1)
 
     study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler())
     study.optimize(lambda trial: objective(
