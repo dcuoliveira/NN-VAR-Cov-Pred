@@ -24,15 +24,29 @@ class MLP(torch.nn.Module):
         return output
 
 class MLPWrapper():
-    def __init__(self, input_size, trial):
+    def __init__(self, 
+                 learning_rate=None,
+                 n_units=None,
+                 n_layers=None,
+                 optimizer=None,
+                 input_size=None,
+                 trial=None):
+
         self.model_name = "mlp"
         self.search_type = 'random'
+
+        learning_rate = learning_rate if learning_rate is not None else trial.suggest_int("learning_rate", 1e-5, 1e-1)
+        n_units = n_units if n_units is not None else trial.suggest_int("n_unit", 10, 100)
+        n_layers = n_layers if n_layers is not None else trial.suggest_int("n_layers", 10, 10)
+        optimizer = optimizer if optimizer is not None else trial.suggest_categorical("optimizer", ["SGD"])
+        input_size = trial.suggest_int("input_size", input_size, input_size)
+
         self.params = {
-              'learning_rate': trial.suggest_loguniform('learning_rate', 1e-5, 1e-1),
-              'n_units': trial.suggest_int("n_unit", 10, 100),
-              'n_layers': trial.suggest_int("n_layers", 10, 10),
-              'optimizer': trial.suggest_categorical("optimizer", ["SGD"]),
-              'input_size': trial.suggest_int("input_size", input_size, input_size),
+              'learning_rate': learning_rate,
+              'n_units': n_units,
+              'n_layers': n_layers,
+              'optimizer': optimizer,
+              'input_size': input_size,
               }
         self.epochs = 100
 
