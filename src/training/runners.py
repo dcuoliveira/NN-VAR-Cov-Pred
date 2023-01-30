@@ -5,6 +5,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import traceback
 import numpy as np
+import optuna
 
 from training import optimization as opt
 from utils import Pyutils as pyutils
@@ -149,3 +150,109 @@ def run_model_training(target_name,
                 out = model_search.best_params_
                 pyutils.save_pkl(data=out,
                                  path=os.path.join(outputs_path, model_tag, dir_name, d_name + "_model.pickle"))
+
+def run_new_model_training(target_name,
+                           inputs_path,
+                           outputs_path,
+                           log_path,
+                           dataset_names,
+                           model_tag,
+                           standardize,
+                           train_size,
+                           wrapper,
+                           criterion,
+                           n_jobs,
+                           n_splits,
+                           n_iter,
+                           seed,
+                           verbose,
+                           output_ovrd,
+                           dir_name_ovrd=None,
+                           classification=False):
+
+    # check if output dir for model_tag exists
+    if not os.path.isdir(os.path.join(outputs_path, model_tag)):
+        os.mkdir(os.path.join(outputs_path, model_tag))
+
+    # check if log dir for model_tag exists
+    if not os.path.isdir(os.path.join(log_path, model_tag)):
+        os.mkdir(os.path.join(log_path, model_tag))
+
+    if dir_name_ovrd is not None:
+        list_dir_names = dir_name_ovrd
+    else:
+        list_dir_names = os.listdir(inputs_path)
+
+    for dir_name in tqdm(list_dir_names,
+                         desc="Running " + model_tag + " model for all DGPs"):
+        for d_name in dataset_names:
+
+            if output_ovrd:
+                check_pickle = os.path.exists(os.path.join(outputs_path, model_tag, dir_name, d_name + "_model.pickle"))
+                check_pred = os.path.exists(os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv"))
+                if check_pickle and check_pred:
+                    continue
+
+            train_data = pd.read_csv(os.path.join(inputs_path, dir_name, d_name + "_train.csv"))
+            train_data.set_index(["Var1", "Var2"], inplace=True)
+            y_train = train_data[[target_name]].to_numpy()
+            X_train = train_data.drop([target_name], axis=1).to_numpy()
+
+            test_data = pd.read_csv(os.path.join(inputs_path, dir_name, d_name + "_test.csv"))
+            test_data.set_index(["Var1", "Var2"], inplace=True)
+            y_test = test_data[[target_name]].to_numpy()
+            X_test = test_data.drop([target_name], axis=1).to_numpy()
+
+            if classification:
+                y_train = np.where(train_data[[target_name]].to_numpy().__abs__() > 0, 1, 0)
+                y_test = np.where(test_data[[target_name]].to_numpy().__abs__() > 0, 1, 0)
+
+            if standardize:
+                X_train, X_validation, y_train, y_validation = train_test_split(X_train, y_train, train_size=train_size)
+
+                scaler = StandardScaler()
+                X_train_zscore = scaler.fit_transform(X_train)
+                X_validation_zscore = scaler.transform(X_validation)
+                X_test_zscore = scaler.transform(X_test)
+
+            # check nan's in dataset
+            if np.any(np.isnan(X_train_zscore)) or np.any(np.isnan(X_validation_zscore)) or np.any(np.isnan(y_train)) or np.any(np.isnan(y_validation)):
+                print(d_name + " " + dir_name)
+                break
+
+            study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(seed=seed))
+            study.optimize(lambda trial: opt.objective(
+
+                y_train=y_train,
+                X_train=X_train_zscore,
+                y_validation=y_validation,
+                X_validation=X_validation_zscore,
+                X_test=X_test_zscore,
+                model_wrapper=wrapper,
+                criterion=criterion,
+                verbose=verbose,
+                trial=trial
+
+                ), n_trials=n_iter, n_jobs=n_jobs)
+
+            output = pd.DataFrame({"Var1": test_data.reset_index()["Var1"],
+                                   "Var2": test_data.reset_index()["Var2"],
+                                   "y": y_test.ravel(),
+                                   "pred": test_pred.ravel()})
+            model_output = study
+
+            # # check if output dir for model_tag AND dir_name exists
+            # if not os.path.isdir(os.path.join(outputs_path, model_tag, dir_name)):
+            #     os.mkdir(os.path.join(outputs_path, model_tag, dir_name))
+
+            # output.to_csv(os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv"), index=False)
+
+            # if ModelWrapper.search_type == "direct_fit":
+            #     out = {"coef": model_search.coef_}
+            #     pyutils.save_pkl(data=out,
+            #                      path=os.path.join(outputs_path, model_tag, dir_name, d_name + "_model.pickle"))
+            # else:
+            #     out = model_search.best_params_
+            #     pyutils.save_pkl(data=out,
+            #                      path=os.path.join(outputs_path, model_tag, dir_name, d_name + "_model.pickle"))
+
