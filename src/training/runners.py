@@ -220,7 +220,7 @@ def run_new_model_training(target_name,
                 print(d_name + " " + dir_name)
                 break
 
-            study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(seed=seed))
+            study = optuna.create_study(direction="minimize", sampler=optuna.samplers.TPESampler(seed=seed))
             study.optimize(lambda trial: opt.objective(
 
                 y_train=y_train,
@@ -238,7 +238,7 @@ def run_new_model_training(target_name,
             output = pd.DataFrame({"Var1": test_data.reset_index()["Var1"],
                                    "Var2": test_data.reset_index()["Var2"],
                                    "y": y_test.ravel(),
-                                   "pred": test_pred.ravel()})
+                                   "pred": study.best_trial.user_attrs["test_predictions"].squeeze()})
             model_output = study
 
             # # check if output dir for model_tag AND dir_name exists
