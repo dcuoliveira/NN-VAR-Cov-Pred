@@ -126,21 +126,22 @@ def train_and_evaluate(y_train, X_train, y_validation, X_validation, X_test, mod
     trial.set_user_attr("loss_values", loss_values_df) 
 
     preds = []
-    for val in X_validation:
-        y_hat = model.forward(val)
-        preds.append(y_hat.item())
+    with torch.no_grad():
+        for val in X_validation:
+            y_hat = model.forward(val)
+            preds.append(y_hat.item())
     preds = torch.FloatTensor(preds).unsqueeze(0).t()
-    test_loss = criterion(preds, y_validation)
-    trial.set_user_attr("test_loss", test_loss) 
+    validation_loss = criterion(preds, y_validation)
+    trial.set_user_attr("validation_loss", validation_loss)
 
     test_preds = []
     for val in X_test:
         y_hat = model.forward(val)
         test_preds.append(y_hat.item())
-    test_preds_df = torch.FloatTensor(test_preds).unsqueeze(0).t()
-    trial.set_user_attr("test_predictions", test_preds_df) 
+    test_preds = torch.FloatTensor(test_preds).unsqueeze(0).t()
+    trial.set_user_attr("test_predictions", test_preds) 
 
-    return test_loss
+    return validation_loss
 
 
 def objective(y_train, X_train, y_validation, X_validation, X_test, model_wrapper, criterion, verbose, trial):
