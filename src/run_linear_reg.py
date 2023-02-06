@@ -34,5 +34,5 @@ if __name__ == '__main__':
                                  n_iter=N_ITER,
                                  seed=SEED,
                                  verbose=VERBOSE,
-                                 dir_name_ovrd=["simple_ar"],
+                                 dir_name_ovrd=["ar1_150_random", "ar1_200_random", "ar1_250_random", "ar1_300_random"],
                                  output_ovrd=OUTPUT_OVRD)
