@@ -53,12 +53,12 @@ def run_model_training(target_name,
                     continue
 
             train_data = pd.read_csv(os.path.join(inputs_path, dir_name, d_name + "_train.csv"))
-            train_data.set_index(["Var1", "Var2"], inplace=True)
+            train_data.set_index(["eq", "variable"], inplace=True)
             y_train = train_data[[target_name]].to_numpy()
             X_train = train_data.drop([target_name], axis=1).to_numpy()
 
             test_data = pd.read_csv(os.path.join(inputs_path, dir_name, d_name + "_test.csv"))
-            test_data.set_index(["Var1", "Var2"], inplace=True)
+            test_data.set_index(["eq", "variable"], inplace=True)
             y_test = test_data[[target_name]].to_numpy()
             X_test = test_data.drop([target_name], axis=1).to_numpy()
 
@@ -130,8 +130,8 @@ def run_model_training(target_name,
 
                     continue
 
-            output = pd.DataFrame({"Var1": test_data.reset_index()["Var1"],
-                                   "Var2": test_data.reset_index()["Var2"],
+            output = pd.DataFrame({"eq": test_data.reset_index()["eq"],
+                                   "variable": test_data.reset_index()["variable"],
                                    "y": y_test.ravel(),
                                    "pred": test_pred.ravel()})
             model_output = {"model_search": model_search}
@@ -194,12 +194,12 @@ def run_new_model_training(target_name,
                     continue
 
             train_data = pd.read_csv(os.path.join(inputs_path, dir_name, d_name + "_train.csv"))
-            train_data.set_index(["Var1", "Var2"], inplace=True)
+            train_data.set_index(["eq", "variable"], inplace=True)
             y_train = train_data[[target_name]].to_numpy()
             X_train = train_data.drop([target_name], axis=1).to_numpy()
 
             test_data = pd.read_csv(os.path.join(inputs_path, dir_name, d_name + "_test.csv"))
-            test_data.set_index(["Var1", "Var2"], inplace=True)
+            test_data.set_index(["eq", "variable"], inplace=True)
             y_test = test_data[[target_name]].to_numpy()
             X_test = test_data.drop([target_name], axis=1).to_numpy()
 
@@ -235,8 +235,8 @@ def run_new_model_training(target_name,
 
                 ), n_trials=n_iter, n_jobs=n_jobs)
 
-            output = pd.DataFrame({"Var1": test_data.reset_index()["Var1"],
-                                   "Var2": test_data.reset_index()["Var2"],
+            output = pd.DataFrame({"eq": test_data.reset_index()["eq"],
+                                   "variable": test_data.reset_index()["variable"],
                                    "y": y_test.ravel(),
                                    "pred": study.best_trial.user_attrs["test_predictions"].squeeze()})
 
