@@ -1,0 +1,80 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+rm(list = ls())
+library("dplyr")
+library("data.table")
+library("SparseTSCGM")
+
+FILE_PATH <- getwd()
+
+source(file.path(FILE_PATH, "utils", "Rutils.R"))
+```
+
+```{r}
+
+MODELS <- "ar1" # nolint
+N <- 100 # nolint
+K_INIT <- 3 # nolint
+SEED <- 02021994 # nolint
+PROB_OF_CONNECTION <- 0.5 # nolint
+NETWORKS <- "random" # nolint
+
+p <- as.integer(str_split(MODELS, "ar")[[1]][2])
+
+mts <- sim.data(model = MODELS,
+                time = 1,
+                n.obs = N,
+                n.var = K_INIT,
+                seed = SEED,
+                prob0 = PROB_OF_CONNECTION,
+                network = NETWORKS)
+
+beta <- mts$gamma %>% t() %>% as.data.table()
+colnames(beta) <- gsub("V", "", colnames(beta))
+dgp_data <- mts$data1 %>% longitudinal_to_data.table()
+corr_dgp <- corr_combination_2x2(data = dgp_data, p = p)
+
+betas_dgp <- beta %>% mutate(eq = row.names(beta)) %>% dplyr::select(eq, everything())
+y_dgp <- melt(betas_dgp, id = c("eq")) %>% as.data.table() %>%
+  rename(betas_dgp = value) %>% mutate(eq = as.character(eq), variable=as.character(variable))
+
+betas_corr_df <- cbind(y_dgp %>% dplyr::select(betas_dgp), corr_dgp %>% dplyr::select(corr_estimate)) %>% as.data.table()
+plot(x = betas_corr_df$corr_estimate, y = betas_corr_df$betas_dgp)
+```
+```{r}
+mts$gamma %>% t()
+```
+
+
+```{r}
+vars::VAR(y = dgp_data, p = 1, type = c("none"))
+```
+
+
+```{r}
+betas_corr_no_zero_df <- betas_corr_df %>% filter(betas_dgp != 0)
+plot(x = betas_corr_no_zero_df$corr_estimate, y = betas_corr_no_zero_df$betas_dgp)
+```
+
+```{r}
+betas_corr_no_zero_positive_df <- betas_corr_df %>% filter((betas_dgp != 0)&(betas_dgp > 0))
+plot(x = betas_corr_no_zero_positive_df$corr_estimate, y = betas_corr_no_zero_positive_df$betas_dgp)
+```
+```{r}
+betas_corr_no_zero_positive_df <- betas_corr_df %>% filter((betas_dgp != 0)&(betas_dgp > 0)&(betas_dgp <=0.4))
+plot(x = betas_corr_no_zero_positive_df$corr_estimate, y = betas_corr_no_zero_positive_df$betas_dgp)
+```
+
+
+
+
+
+
+
+
+
+
