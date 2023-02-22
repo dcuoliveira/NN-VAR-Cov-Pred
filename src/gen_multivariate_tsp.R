@@ -33,7 +33,7 @@ foreach(prob = PROB_OF_CONNECTION) %dopar% {
   for (p in 1:P){
     for (k in seq(K_INIT, K, by = STEP)){
       model <- paste0("ar", p) 
-      output_name <- paste0(model, "_", prob, "_", p, "_", k)
+      output_name <- paste0("var_", prob, "_", p, "_", k)
       new_folder <- file.path(OUTPUT_PATH, output_name)
       dir.create(new_folder)
       
