@@ -32,7 +32,6 @@ foreach(prob = PROB_OF_CONNECTION) %dopar% {
 
   for (p in 1:P){
     for (k in seq(K_INIT, K, by = STEP)){
-      model <- paste0("ar", p) 
       output_name <- paste0("var_", prob, "_", p, "_", k)
       new_folder <- file.path(OUTPUT_PATH, output_name)
       dir.create(new_folder)
@@ -83,7 +82,7 @@ foreach(prob = PROB_OF_CONNECTION) %dopar% {
       # beta 2x2 of each time series and lags
       beta2x2_data <- lm_combination_2x2(data = dgp_data, p = p)
       betadgp_beta2x2_data <- merge(y_dgp, beta2x2_data)
-      fwrite(x = betadgp_covdgp_data,
+      fwrite(x = betadgp_beta2x2_data,
              file = file.path(new_folder, "betadgp_beta2x2_data_train.csv"),
              row.names = FALSE)
       
