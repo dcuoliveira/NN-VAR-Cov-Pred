@@ -97,7 +97,7 @@ foreach(prob = PROB_OF_CONNECTION) %dopar% {
              row.names = FALSE)
       
       # test data
-      mts_test <- simulateVAR(N = k, p = p, nobs = N, sparsity=PROB_OF_CONNECTION)
+      mts_test <- simulateVAR(N = k, p = p, nobs = N, sparsity=prob)
       betas_dgp_test <- mts_test$A[[1]]
       
       y_dgp_test <- melt(betas_dgp_test) %>%
