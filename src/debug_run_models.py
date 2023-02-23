@@ -3,6 +3,7 @@ import torch
 
 from training.runners import run_new_model_training
 from models.neural_networks import MLPWrapper
+from training.loss_functions import WMSELoss
 
 N_JOBS = 1  # number of jobs to run in parallel
 N_SPLITS = 5  # number of splits (k) to be made within the k fold cv
@@ -12,13 +13,13 @@ VERBOSE = False
 INPUTS_PATH = os.path.join(os.getcwd(), "src", "data", "inputs")
 OUTPUTS_PATH = os.path.join(os.getcwd(), "src", "data", "outputs")
 LOG_PATH = os.path.join(os.getcwd(), "src", "data", "log")
-DATASET_NAMES = ["betadgp_corrdgp_data", "betadgp_covdgp_data", "betadgp_beta2x2_data"]
+DATASET_NAMES = ["betadgp_covdgp_data", "betadgp_corrdgp_data", "betadgp_beta2x2_data"]
 TARGET_NAME = "betas_dgp"
 MODEL_TAG = "mlp"
 STANDARDIZE = True
 TRAIN_SIZE = 0.7
 OUTPUT_OVRD = True
-CRITERION = torch.nn.MSELoss()
+CRITERION =  WMSELoss # torch.nn.MSELoss()
 
 if __name__ == '__main__':
     results = run_new_model_training(inputs_path=INPUTS_PATH,
@@ -32,9 +33,8 @@ if __name__ == '__main__':
                                      wrapper=MLPWrapper,
                                      criterion=CRITERION,
                                      n_jobs=N_JOBS,
-                                     n_splits=N_SPLITS,
                                      n_iter=N_ITER,
-                                     dir_name_ovrd=["simple_ar"],
+                                     dir_name_ovrd=["var_0.05_1_150"],
                                      seed=SEED,
                                      verbose=VERBOSE,
                                      output_ovrd=OUTPUT_OVRD)
