@@ -86,7 +86,10 @@ def train_and_evaluate(y_train, X_train, y_validation, X_validation, X_test, mod
 
     model_wrapper = model_wrapper(input_size=X_train.shape[1], trial=trial)
     
-    model = model_wrapper.ModelClass
+    model = model_wrapper.ModelClass(input_size=model_wrapper.params["input_size"],
+                                     n_layers=model_wrapper.params["n_layers"],
+                                     n_units=model_wrapper.params["n_units"],
+                                     bias=True)
     param = model_wrapper.params
     epochs = model_wrapper.epochs
 
