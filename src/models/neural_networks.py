@@ -50,7 +50,4 @@ class MLPWrapper():
               }
         self.epochs = 100
 
-        self.ModelClass = MLP(input_size=self.params["input_size"],
-                              n_layers=self.params["n_layers"],
-                              n_units=self.params["n_units"],
-                              bias=True)
+        self.ModelClass = MLP
