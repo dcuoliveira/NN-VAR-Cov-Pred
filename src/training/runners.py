@@ -243,7 +243,12 @@ def run_new_model_training(target_name,
             if not os.path.isdir(os.path.join(outputs_path, model_tag, dir_name)):
                 os.mkdir(os.path.join(outputs_path, model_tag, dir_name))
 
+            # prediction results
             output.to_csv(os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv"), index=False)
-            out = study.best_trial.params
-            pyutils.save_pkl(data=out,
+
+            # trials parameters
+            trial_df = study.trials_dataframe()
+            pyutils.save_pkl(data={"trials_info": trial_df,
+                                   "train_loss": study.best_trial.user_attrs["loss_values"],
+                                   "test_loss": study.best_trial.user_attrs["validation_loss"]},
                                 path=os.path.join(outputs_path, model_tag, dir_name, d_name + "_model.pickle"))
