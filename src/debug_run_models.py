@@ -7,7 +7,7 @@ from training.loss_functions import WMSELoss
 
 N_JOBS = 1  # number of jobs to run in parallel
 N_SPLITS = 5  # number of splits (k) to be made within the k fold cv
-N_ITER = 20  # number of parameter settings that are sampled
+N_ITER = 100  # number of parameter settings that are sampled
 SEED = 2294
 VERBOSE = False
 INPUTS_PATH = os.path.join(os.getcwd(), "src", "data", "inputs")
@@ -19,7 +19,7 @@ MODEL_TAG = "mlp"
 STANDARDIZE = True
 TRAIN_SIZE = 0.7
 OUTPUT_OVRD = True
-CRITERION =  WMSELoss # torch.nn.MSELoss()
+CRITERION = torch.nn.MSELoss()
 
 if __name__ == '__main__':
     results = run_new_model_training(inputs_path=INPUTS_PATH,
