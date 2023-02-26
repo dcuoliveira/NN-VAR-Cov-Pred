@@ -5,7 +5,7 @@ from training.runners import run_new_model_training
 from models.neural_networks import MLPWrapper
 from training.loss_functions import WMSELoss
 
-N_JOBS = 10  # number of jobs to run in parallel
+N_JOBS = 2  # number of jobs to run in parallel
 N_SPLITS = 5  # number of splits (k) to be made within the k fold cv
 N_ITER = 500  # number of parameter settings that are sampled
 SEED = 2294
