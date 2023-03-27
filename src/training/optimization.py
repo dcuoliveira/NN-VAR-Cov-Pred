@@ -4,6 +4,7 @@ from tqdm import tqdm
 import torch
 from sklearn.model_selection import train_test_split
 import pandas as pd
+import numpy as np
 
 import training.loss_functions as lf
 
@@ -143,6 +144,11 @@ def train_and_evaluate(y_train, X_train, y_validation, X_validation, X_test, mod
         test_preds.append(y_hat.item())
     test_preds = torch.FloatTensor(test_preds).unsqueeze(0).t()
     trial.set_user_attr("test_predictions", test_preds) 
+
+    trial.set_user_attr("trial_summary", {"n_layers": model.n_layers,
+                                          "n_units": model.n_units,
+                                          "avg_train_loss": np.mean(loss_values),
+                                          "validation_loss": validation_loss.item()}) 
 
     return validation_loss
 
