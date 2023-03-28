@@ -5,10 +5,9 @@ import argparse
 from training.runners import run_new_model_training
 from settings import loss_metadata, model_metadata
 
-PROJECT_NAME = os.path.dirname(os.path.dirname(__file__))
-INPUTS_PATH = os.path.join(PROJECT_NAME, "src", "data", "inputs")
-OUTPUTS_PATH = os.path.join(PROJECT_NAME, "src", "data", "outputs")
-LOG_PATH = os.path.join(PROJECT_NAME, "src", "data", "log")
+INPUTS_PATH = os.path.join(os.getcwd(), "data", "inputs")
+OUTPUTS_PATH = os.path.join(os.getcwd(), "data", "outputs")
+LOG_PATH = os.path.join(os.getcwd(), "data", "log")
 DATASET_NAMES = ["betadgp_corrdgp_data", "betadgp_covdgp_data", "betadgp_beta2x2_data", "betadgp_data"]
 TARGET_NAME = "betas_dgp"
 OUTPUT_OVRD = True
