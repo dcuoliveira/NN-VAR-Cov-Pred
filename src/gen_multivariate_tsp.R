@@ -14,10 +14,10 @@ source(file.path(FILE_PATH, "src", "utils", "Rutils.R"))
 OUTPUT_PATH <- file.path(FILE_PATH, "src", "data", "inputs")
 P <- 1
 N <- 100
-K_INIT <- 150
-K <- 300
-STEP <- 50
-PROB_OF_CONNECTION <- c(0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9)
+K_INIT <- 10
+K <- 200
+STEP <- 10
+PROB_OF_CONNECTION <- c(0.05, 0.5, 0.9)
 
 cores <- detectCores()
 cl <- makeCluster(cores[1] - 1)
