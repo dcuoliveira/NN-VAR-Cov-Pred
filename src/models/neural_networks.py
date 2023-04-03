@@ -35,7 +35,7 @@ class MLPWrapper():
         self.model_name = "mlp"
         self.search_type = 'random'
 
-        learning_rate = learning_rate if learning_rate is not None else trial.suggest_float("learning_rate", 1e-1, 1e-1)
+        learning_rate = learning_rate if learning_rate is not None else trial.suggest_float("learning_rate", 1e-3, 1e-3)
         n_units = n_units if n_units is not None else trial.suggest_int("n_units", 10, 200)
         n_layers = n_layers if n_layers is not None else trial.suggest_int("n_layers", 10, 200)
         optimizer = optimizer if optimizer is not None else trial.suggest_categorical("optimizer", ["SGD"])
