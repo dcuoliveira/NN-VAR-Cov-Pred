@@ -16,8 +16,10 @@ P <- 1
 N <- 100
 K_INIT <- 10
 K <- 200
-STEP <- 10
+STEP <- 20
 PROB_OF_CONNECTION <- c(0.05, 0.5, 0.9)
+
+seqs <- c(10, 50, 100, 150, 200) # seq(K_INIT, K, by = STEP)
 
 cores <- detectCores()
 cl <- makeCluster(cores[1] - 1)
@@ -31,7 +33,7 @@ foreach(prob = PROB_OF_CONNECTION) %dopar% {
   library("stringr")
 
   for (p in 1:P){
-    for (k in seq(K_INIT, K, by = STEP)){
+    for (k in seqs){
       output_name <- paste0("var_", prob, "_", p, "_", k)
       new_folder <- file.path(OUTPUT_PATH, output_name)
       dir.create(new_folder)
