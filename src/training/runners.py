@@ -183,6 +183,7 @@ def run_new_model_training(target_name,
         list_dir_names = os.listdir(inputs_path)
 
     for dir_name in tqdm(list_dir_names,
+                         disable=verbose,
                          desc="Running " + model_tag + " model for all DGPs"):
         for d_name in dataset_names:
 
