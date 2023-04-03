@@ -13,7 +13,7 @@ TARGET_NAME = "betas_dgp"
 OUTPUT_OVRD = True
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--n_jobs', type=float, default=1, help='Dataset name.')
+parser.add_argument('--n_jobs', type=float, default=10, help='Dataset name.')
 parser.add_argument('--n_iter', type=int, default=50, help='Model name.')
 parser.add_argument('--seed', type=int, default=2294, help='Model name.')
 parser.add_argument('--model_tag', type=str, default="mlp", help='Model name.')
