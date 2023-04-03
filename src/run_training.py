@@ -40,5 +40,5 @@ if __name__ == '__main__':
                                      seed=args.seed,
                                      verbose=args.verbose,
                                      output_ovrd=OUTPUT_OVRD,
-                                     dir_name_ovrd=["var_0.05_1_10"],
+                                     dir_name_ovrd=["var_0.05_1_10", "var_0.5_1_10", "var_0.9_1_10"],
                                      classification=False)
