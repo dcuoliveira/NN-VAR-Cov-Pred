@@ -38,6 +38,8 @@ foreach(prob = PROB_OF_CONNECTION) %dopar% {
       new_folder <- file.path(OUTPUT_PATH, output_name)
       dir.create(new_folder)
       
+      ## TRAIN ##
+      
       mts <- simulateVAR(N = k, p = p, nobs = N, sparsity=prob)
       
       # simulated time series
@@ -48,25 +50,23 @@ foreach(prob = PROB_OF_CONNECTION) %dopar% {
       
       # dgp covariance matrix ?
       sigma <- mts$sigma %>% as.data.table()
-      colnames(sigma) <- gsub("V", "", colnames(sigma))
       fwrite(x = sigma,
              file = file.path(new_folder, "sigma_train.csv"),
              row.names = FALSE)
       
       # dgp betas
-      beta <- mts$A[[1]] %>% as.data.table()
-      colnames(beta) <- gsub("V", "", colnames(beta))
-      fwrite(x = beta,
+      betas <- mts$A %>% as.data.table()
+      colnames(betas) <- stardize_var_lag_names(k = k, p = p)
+      betas$eq <- stardize_var_names(k = k)
+      betas <- betas %>% dplyr::select(eq, everything())
+      fwrite(x = betas,
              file = file.path(new_folder, "beta_train.csv"),
              row.names = FALSE)
       
       # sample covariance matrix
-      betas_dgp <- beta %>%
-        mutate(eq = row.names(beta)) %>%
-        dplyr::select(eq, everything())
-      y_dgp <- melt(betas_dgp, id = c("eq")) %>%
+      y_dgp <- melt(betas, id = c("eq")) %>%
         as.data.table() %>%
-        rename(betas_dgp = value) %>%
+        rename(beta = value) %>%
         mutate(eq = as.character(eq), variable=as.character(variable))
       cov_dgp <- cov_combination_2x2(data = dgp_data, p = p)
       betadgp_covdgp_data <- merge(y_dgp, cov_dgp)
@@ -98,46 +98,57 @@ foreach(prob = PROB_OF_CONNECTION) %dopar% {
              file = file.path(new_folder, "betadgp_data_train.csv"),
              row.names = FALSE)
       
-      # test data
+      ## TEST ##
+      
+      # data - test
       mts_test <- simulateVAR(N = k, p = p, nobs = N, sparsity=prob)
-      betas_dgp_test <- mts_test$A[[1]]
       
-      y_dgp_test <- melt(betas_dgp_test) %>%
-        as.data.table() %>%
-        rename(eq = Var1, variable = Var2, betas_dgp = value) %>%
-        mutate(eq = as.character(eq), variable = as.character(variable))
-      
-      dgp_data_test <- mts_test$series %>%
-        longitudinal_to_data.table()
+      # simulated time series - test
+      dgp_data_test <- mts_test$series %>% as.data.table()
       fwrite(x = dgp_data_test,
              file = file.path(new_folder, "data_dgp_test.csv"),
              row.names = FALSE)
       
-      # test covariance estimate
+      # betas - test
+      betas_test <- mts_test$A %>% as.data.table()
+      colnames(betas_test) <- stardize_var_lag_names(k = k, p = p)
+      betas_test$eq <- stardize_var_names(k = k)
+      betas_test <- betas_test %>% dplyr::select(eq, everything())
+      fwrite(x = betas_test,
+             file = file.path(new_folder, "beta_test.csv"),
+             row.names = FALSE)
+      
+      # sample covariance matrix - test
+      y_dgp_test <- melt(betas_test, id = c("eq")) %>%
+        as.data.table() %>%
+        rename(beta = value) %>%
+        mutate(eq = as.character(eq), variable=as.character(variable))
       cov_dgp_test <- cov_combination_2x2(data = dgp_data_test, p = p)
       betadgp_covdgp_data_test <- merge(y_dgp_test, cov_dgp_test)
       fwrite(x = betadgp_covdgp_data_test,
              file = file.path(new_folder, "betadgp_covdgp_data_test.csv"),
              row.names = FALSE)
       
-      # test covariance estimate
+      # sample correlation matrix - test
       corr_dgp_test <- corr_combination_2x2(data = dgp_data_test, p = p)
       betadgp_corrdgp_data_test <- merge(y_dgp_test, corr_dgp_test)
       fwrite(x = betadgp_corrdgp_data_test,
              file = file.path(new_folder, "betadgp_corrdgp_data_test.csv"),
              row.names = FALSE)
       
+      # beta 2x2 of each time series and lags - test
       beta2x2_data_test <- lm_combination_2x2(data = dgp_data_test, p = p)
       betadgp_beta2x2_data_test <- merge(y_dgp_test, beta2x2_data_test)
       fwrite(x = betadgp_beta2x2_data_test,
              file = file.path(new_folder, "betadgp_beta2x2_data_test.csv"),
              row.names = FALSE)
       
+      # all covariates - test
       betadgp_data_test <- merge(merge(betadgp_covdgp_data_test,
-                                       corr_dgp_test,
-                                       by = c("eq", "variable")),
-                                 beta2x2_data_test,
-                                 by = c("eq", "variable"))
+                                  corr_dgp_test,
+                                  by = c("eq", "variable")),
+                            beta2x2_data_test,
+                            by = c("eq", "variable"))
       fwrite(x = betadgp_data_test,
              file = file.path(new_folder, "betadgp_data_test.csv"),
              row.names = FALSE)
