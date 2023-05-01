@@ -56,8 +56,8 @@ foreach(prob = PROB_OF_CONNECTION) %dopar% {
       
       # dgp betas
       betas <- mts$A %>% as.data.table()
-      colnames(betas) <- stardize_var_lag_names(k = k, p = p)
-      betas$eq <- stardize_var_names(k = k)
+      colnames(betas) <- standardize_var_lag_names(k = k, p = p)
+      betas$eq <- standardize_var_names(k = k)
       betas <- betas %>% dplyr::select(eq, everything())
       fwrite(x = betas,
              file = file.path(new_folder, "beta_train.csv"),
@@ -111,8 +111,8 @@ foreach(prob = PROB_OF_CONNECTION) %dopar% {
       
       # betas - test
       betas_test <- mts_test$A %>% as.data.table()
-      colnames(betas_test) <- stardize_var_lag_names(k = k, p = p)
-      betas_test$eq <- stardize_var_names(k = k)
+      colnames(betas_test) <- standardize_var_lag_names(k = k, p = p)
+      betas_test$eq <- standardize_var_names(k = k)
       betas_test <- betas_test %>% dplyr::select(eq, everything())
       fwrite(x = betas_test,
              file = file.path(new_folder, "beta_test.csv"),
