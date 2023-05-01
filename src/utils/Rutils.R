@@ -2,7 +2,7 @@ library("stringr")
 library("data.table")
 library("dynlm")
 
-stardize_var_names <- function(k){
+standardize_var_names <- function(k){
   new_names <- c()
   ks <- k
 
@@ -13,7 +13,7 @@ stardize_var_names <- function(k){
   return(new_names)
 }
 
-stardize_var_lag_names <- function(k, p){
+standardize_var_lag_names <- function(k, p){
   new_names <- c()
   ks <- k
   ps <- p
