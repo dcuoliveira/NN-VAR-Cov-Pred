@@ -12,14 +12,14 @@ FILE_PATH <- getwd()
 source(file.path(FILE_PATH, "src", "utils", "Rutils.R"))
 
 OUTPUT_PATH <- file.path(FILE_PATH, "src", "data", "inputs")
-P <- 1
+P <- 2
 N <- 100
 K_INIT <- 10
 K <- 200
 STEP <- 20
-PROB_OF_CONNECTION <- c(0.05, 0.5, 0.9)
+PROB_OF_CONNECTION <- c(0.05, 0.9)
 
-seqs <- c(10, 50, 100, 150, 200) # seq(K_INIT, K, by = STEP)
+seqs <- c(10, 200) # seq(K_INIT, K, by = STEP)
 
 cores <- detectCores()
 cl <- makeCluster(cores[1] - 1)
