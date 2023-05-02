@@ -80,7 +80,7 @@ for (dir_name in list_dir_names){
   
   betas_predicted <- melt(B, "eq") %>% dplyr::rename(pred=value)
   y_test = read.csv(file.path(INPUTS_PATH, dir_name, "beta_test.csv")) %>% as.data.table() %>% melt("eq")
-  results_test <- merge(y_test, betas_predicted)
+  results_test <- merge(y_test, betas_predicted) %>% dplyr::rename(actual=value)
   mse_test <- Metrics::mse(actual = results_test$value, predicted = results_test$pred)
   
   # check if dir exists
