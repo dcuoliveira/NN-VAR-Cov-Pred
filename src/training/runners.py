@@ -182,6 +182,9 @@ def run_new_model_training(target_name,
     else:
         list_dir_names = os.listdir(inputs_path)
 
+    # fix files
+    list_dir_names = [val for val in list_dir_names if ".DS_Store" not in val]
+
     for dir_name in tqdm(list_dir_names,
                          disable=verbose,
                          desc="Running " + model_tag + " model for all DGPs"):
@@ -235,21 +238,22 @@ def run_new_model_training(target_name,
 
                 ), n_trials=n_iter, n_jobs=n_jobs)
 
+            # prediction results
             output = pd.DataFrame({"eq": test_data.reset_index()["eq"],
                                    "variable": test_data.reset_index()["variable"],
-                                   "y": y_test.ravel(),
+                                   "actual": y_test.ravel(),
                                    "pred": study.best_trial.user_attrs["test_predictions"].squeeze()})
+
+            # trials parameters
+            trial_df = study.trials_dataframe()
 
             # check if output dir for model_tag AND dir_name exists
             if not os.path.isdir(os.path.join(outputs_path, model_tag, dir_name)):
                 os.mkdir(os.path.join(outputs_path, model_tag, dir_name))
-
-            # prediction results
-            output.to_csv(os.path.join(outputs_path, model_tag, dir_name, d_name + "_result.csv"), index=False)
-
-            # trials parameters
-            trial_df = study.trials_dataframe()
-            pyutils.save_pkl(data={"trials_info": trial_df,
-                                   "train_loss": study.best_trial.user_attrs["loss_values"],
-                                   "test_loss": study.best_trial.user_attrs["validation_loss"]},
-                                path=os.path.join(outputs_path, model_tag, dir_name, d_name + "_model.pickle"))
+            
+             # save all results
+            np.savez(file=os.path.join(outputs_path, model_tag, dir_name, d_name + "{}_results.pickle".format(model_tag)),
+                     prediction=output,
+                     train_loss=study.best_trial.user_attrs["loss_values"],
+                     test_loss=study.best_trial.user_attrs["validation_loss"],
+                     parameters=trial_df)
