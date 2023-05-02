@@ -9,12 +9,12 @@ INPUTS_PATH = os.path.join(FILE_PATH, "data", "inputs")
 OUTPUTS_PATH = os.path.join(FILE_PATH, "data", "outputs")
 LOG_PATH = os.path.join(FILE_PATH, "data", "log")
 DATASET_NAMES = ["betadgp_corrdgp_data", "betadgp_covdgp_data", "betadgp_beta2x2_data", "betadgp_data"]
-TARGET_NAME = "betas_dgp"
+TARGET_NAME = "beta"
 OUTPUT_OVRD = True
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--n_jobs', type=float, default=10, help='Dataset name.')
-parser.add_argument('--n_iter', type=int, default=50, help='Model name.')
+parser.add_argument('--n_iter', type=int, default=1, help='Model name.')
 parser.add_argument('--seed', type=int, default=2294, help='Model name.')
 parser.add_argument('--model_tag', type=str, default="mlp", help='Model name.')
 parser.add_argument('--standardize', type=bool, default=True, help='Model name.')
@@ -40,5 +40,5 @@ if __name__ == '__main__':
                                      seed=args.seed,
                                      verbose=args.verbose,
                                      output_ovrd=OUTPUT_OVRD,
-                                     dir_name_ovrd=["var_0.05_1_10", "var_0.5_1_10", "var_0.9_1_10"],
+                                     dir_name_ovrd=None,
                                      classification=False)
